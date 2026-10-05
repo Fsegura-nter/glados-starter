@@ -35,13 +35,15 @@ def test_el_hook_compila(raiz, nombre):
 @pytest.mark.parametrize("nombre", HOOKS)
 def test_el_hook_sobrevive_a_stdin_vacio(raiz, nombre, tmp_path, respaldo_configurado):
     r = subprocess.run([sys.executable, str(raiz / "nucleo/.glados" / f"{nombre}.py")],
-                       input="{}", capture_output=True, text=True, cwd=tmp_path, timeout=30)
+                       input="{}", capture_output=True, text=True, encoding="utf-8",
+                       cwd=tmp_path, timeout=30)
     assert r.returncode == 0, r.stderr
 
 def test_el_respaldo_no_escribe_fuera_del_destino_configurado(raiz, tmp_path, respaldo_configurado):
     destino = respaldo_configurado
     r = subprocess.run([sys.executable, str(raiz / "nucleo/.glados/respaldo_drive.py")],
-                       input="{}", capture_output=True, text=True, cwd=tmp_path, timeout=30)
+                       input="{}", capture_output=True, text=True, encoding="utf-8",
+                       cwd=tmp_path, timeout=30)
     assert r.returncode == 0, r.stderr
     zips = list(destino.glob("vault-*.zip"))
     assert len(zips) == 1, f"esperaba exactamente un zip en {destino}, encontrado: {zips}"

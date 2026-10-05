@@ -29,6 +29,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import config
 
+config.force_utf8()
+
 SCHEMA = """
 CREATE VIRTUAL TABLE IF NOT EXISTS chunks USING fts5(
     source, coleccion, cliente, texto, chunk UNINDEXED,
@@ -157,7 +159,6 @@ def search(texto: str, cliente: str | None = None, coleccion: str | None = None,
 
 
 def main() -> int:
-    config.force_utf8()
     ap = argparse.ArgumentParser(description="Búsqueda literal en el vault (rápida).")
     ap.add_argument("query", nargs="*")
     ap.add_argument("--vault", required=True,
@@ -172,13 +173,13 @@ def main() -> int:
     args = ap.parse_args()
 
     if not is_populated():
-        print("No hay indice todavia. Ejecuta primero: python index_docs.py --vault "
+        print("No hay índice todavía. Ejecuta primero: python index_docs.py --vault "
               f"{args.vault}")
         return 0
 
     if args.stats or not args.query:
         filas = stats()
-        print(f"{'coleccion':<12} {'ficheros':>9} {'fragmentos':>11}")
+        print(f"{'colección':<12} {'ficheros':>9} {'fragmentos':>11}")
         for col, nf, nc in filas:
             print(f"{col:<12} {nf:>9} {nc:>11}")
         return 0
@@ -186,10 +187,10 @@ def main() -> int:
     resultados = search(" ".join(args.query), cliente=args.cliente,
                         coleccion=args.coleccion, limit=args.n)
     if not resultados:
-        print("Sin resultados lexicos para esa busqueda.")
+        print("Sin resultados léxicos para esa búsqueda.")
         return 1
     for ref, frag in resultados:
-        print(f"\n[{ref}] -> {frag[:400]}{'...' if len(frag) > 400 else ''}")
+        print(f"\n[{ref}] → {frag[:400]}{'...' if len(frag) > 400 else ''}")
     return 0
 
 

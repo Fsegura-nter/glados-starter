@@ -41,9 +41,9 @@ def test_el_cli_list_nombra_las_huerfanas(raiz, tmp_path, monkeypatch):
     ruta = raiz / "nucleo/.glados" / "credentials.py"
     env = {**os.environ, "LOCALAPPDATA": str(tmp_path)}
     subprocess.run([sys.executable, str(ruta), "set", "servicio.inventado", "valor-secretisimo-999"],
-                   env=env, check=True, capture_output=True, text=True)
+                   env=env, check=True, capture_output=True, text=True, encoding="utf-8")
     resultado = subprocess.run([sys.executable, str(ruta), "list"],
-                                env=env, capture_output=True, text=True)
+                                env=env, capture_output=True, text=True, encoding="utf-8")
     assert "servicio.inventado" in resultado.stdout
     assert "valor-secretisimo-999" not in resultado.stdout
 

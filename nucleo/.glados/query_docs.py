@@ -23,6 +23,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import config
 
+config.force_utf8()
+
 NOMBRE_COLECCION_VECTORES = "docs"
 MODELO_EMBEDDINGS_DEFECTO = "paraphrase-multilingual-MiniLM-L12-v2"
 
@@ -91,7 +93,6 @@ def query_docs(query: str, n_results: int = 5, cliente: str | None = None,
 
 
 def main() -> int:
-    config.force_utf8()
     ap = argparse.ArgumentParser(description="Búsqueda semántica (lenta) en el vault.")
     ap.add_argument("query", nargs="+")
     ap.add_argument("--vault", required=True,
@@ -107,7 +108,7 @@ def main() -> int:
     query = " ".join(args.query)
 
     if not has_embeddings():
-        print(f"El indice semantico esta vacio. Ejecuta: python index_docs.py --vault {args.vault}")
+        print(f"El índice semántico está vacío. Ejecuta: python index_docs.py --vault {args.vault}")
         return 1
 
     results = query_docs(query, n_results=args.n, cliente=args.cliente, coleccion=args.coleccion)
@@ -115,9 +116,9 @@ def main() -> int:
         print("Sin resultados para esa consulta.")
         return 1
 
-    print(f'\nResultados para: "{query}"\n{"-" * 60}')
+    print(f'\nResultados para: "{query}"\n{"─" * 60}')
     for source, fragment in results:
-        print(f"\n[{source}] -> {fragment[:400]}{'...' if len(fragment) > 400 else ''}")
+        print(f"\n[{source}] → {fragment[:400]}{'...' if len(fragment) > 400 else ''}")
     print()
     return 0
 

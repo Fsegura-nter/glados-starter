@@ -39,6 +39,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import config
 import lexical
 
+config.force_utf8()
+
 # Rutas que nunca se indexan: temporales de Office, ocultos, y todo lo que empieza por
 # "_" (material no curado o generado).
 SKIP_PREFIXES = ("~$", ".", "_")
@@ -128,7 +130,7 @@ def indexar(raiz: Path, solo_lexico: bool = False, coleccion: str | None = None,
     """
     nombres = [n for n in config.colecciones() if not coleccion or n == coleccion]
     if not nombres:
-        print(f"Coleccion desconocida: {coleccion}. Hay: " + ", ".join(config.colecciones()))
+        print(f"Colección desconocida: {coleccion}. Hay: " + ", ".join(config.colecciones()))
         return 0
 
     collection = None
@@ -154,7 +156,7 @@ def indexar(raiz: Path, solo_lexico: bool = False, coleccion: str | None = None,
     for nombre in nombres:
         root = _carpeta_coleccion(raiz, nombre)
         if not root or not root.exists():
-            print(f"[{nombre}] sin carpeta configurada o inexistente todavia. Salto.")
+            print(f"[{nombre}] sin carpeta configurada o inexistente todavía. Salto.")
             continue
         print(f"[{nombre}] {root}")
         files = candidate_files(root)
@@ -177,7 +179,7 @@ def indexar(raiz: Path, solo_lexico: bool = False, coleccion: str | None = None,
                 print(f"  [ERROR] {source}: {e}")
                 continue
             if not chunks:
-                print(f"  [WARN] {source}: sin texto extraible (PDF escaneado?)")
+                print(f"  [WARN] {source}: sin texto extraíble (¿PDF escaneado?)")
                 continue
             cliente = client_of(rel)
             print(f"  [INDEX] {source} ({len(chunks)} fragmentos, cliente={cliente})")
@@ -199,21 +201,20 @@ def indexar(raiz: Path, solo_lexico: bool = False, coleccion: str | None = None,
                 collection.delete(where={"$and": [{"source": source}, {"coleccion": nombre}]})
             removed += 1
 
-        print(f"  -> indexados {indexed} | sin cambios {skipped} | eliminados {removed}")
+        print(f"  → indexados {indexed} | sin cambios {skipped} | eliminados {removed}")
         total_i, total_s, total_r = total_i + indexed, total_s + skipped, total_r + removed
 
-    capas = "lexica" if solo_lexico else "lexica + semantica"
+    capas = "léxica" if solo_lexico else "léxica + semántica"
     print(f"\nCapas: {capas} | Total indexados: {total_i} | Sin cambios: {total_s} | Eliminados: {total_r}")
     filas = lexical.stats()
     if filas:
-        print("\nIndice lexico:")
+        print("\nÍndice léxico:")
         for col, nf, nc in filas:
             print(f"  {col:<10} {nf:>4} ficheros  {nc:>6} fragmentos")
     return total_i
 
 
 def main() -> int:
-    config.force_utf8()
     ap = argparse.ArgumentParser(description="Indexa las colecciones del vault para las "
                                               "dos capas de búsqueda.")
     ap.add_argument("--vault", required=True,

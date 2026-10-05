@@ -28,7 +28,7 @@ def test_ignora_su_propia_lista_de_patrones(raiz):
 def test_cli_sale_con_1_si_encuentra_algo(tmp_path, raiz):
     (tmp_path / "a.md").write_text("nfqsolutions.es", encoding="utf-8")
     r = subprocess.run([sys.executable, str(raiz / "herramientas/limpieza.py"), str(tmp_path)],
-                       capture_output=True, text=True)
+                       capture_output=True, text=True, encoding="utf-8")
     assert r.returncode == 1
     assert "dominio_interno" in r.stdout
 
@@ -124,6 +124,6 @@ def test_sin_fichero_de_lista_blanca_no_falla(tmp_path):
 def test_el_cli_sale_0_sobre_el_repo_real(raiz):
     # El CLI corre el barrido real del repo con la lista blanca
     r = subprocess.run([sys.executable, str(raiz / "herramientas/limpieza.py")],
-                       capture_output=True, text=True)
+                       capture_output=True, text=True, encoding="utf-8")
     assert r.returncode == 0, f"El repo debe estar limpio (exit 0), pero salió {r.returncode}\nStdout:\n{r.stdout}"
     assert "excluidos por .limpieza-permitido" in r.stdout, "Debe mostrar qué ficheros se excluyeron"
