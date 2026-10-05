@@ -6,12 +6,26 @@ Hallazgo = namedtuple("Hallazgo", "fichero linea patron texto")
 
 PATRONES = {
     "dominio_interno": re.compile(r"\bnfqsolutions\.es\b", re.I),
-    "correo":          re.compile(r"[\w.+-]+@(?:nter|nfqsolutions)\.[a-z]{2,}", re.I),
-    "cliente":         re.compile(r"\b(?:Treyit|Yiyit|SegurCaixa|Adeslas)\b", re.I),
+    "correo":          re.compile(r"[\w.+-]+@(?:[\w-]+\.)*(?:nter|nfqsolutions)\.[a-z]{2,}", re.I),
+    "cliente":         re.compile(r"Treyit|Yiyit|SegurCaixa|Adeslas", re.I),
     "ruta_personal":   re.compile(r"[A-Z]:\\Users\\[A-Za-z]{2}\d{6,}", re.I),
 }
 IGNORAR = {".git", ".venv", "__pycache__", ".pytest_cache", "node_modules", ".superpowers"}
 BINARIOS = {".png", ".jpg", ".ico", ".zip", ".pyc", ".ttf", ".woff2"}
+
+
+def _detectar_encoding(datos_bytes):
+    """Detecta el encoding de un fichero: UTF-16-LE (BOM), UTF-16-BE (BOM), UTF-8-sig, o UTF-8."""
+    if datos_bytes.startswith(b'\xff\xfe'):
+        return 'utf-16-le'
+    if datos_bytes.startswith(b'\xfe\xff'):
+        return 'utf-16-be'
+    if datos_bytes.startswith(b'\xef\xbb\xbf'):
+        return 'utf-8-sig'
+    # Si no hay BOM, revisa los primeros 1024 bytes: si hay NUL bytes, probablemente es UTF-16-LE
+    if b'\x00' in datos_bytes[:1024]:
+        return 'utf-16-le'
+    return 'utf-8'
 
 
 def buscar(raiz):
@@ -23,8 +37,10 @@ def buscar(raiz):
         if IGNORAR & set(f.relative_to(raiz).parts):
             continue
         try:
-            lineas = f.read_text(encoding="utf-8", errors="ignore").splitlines()
-        except OSError:
+            datos = f.read_bytes()
+            encoding = _detectar_encoding(datos)
+            lineas = datos.decode(encoding, errors="ignore").splitlines()
+        except (OSError, UnicodeDecodeError):
             continue
         for n, linea in enumerate(lineas, 1):
             for nombre, patron in PATRONES.items():
