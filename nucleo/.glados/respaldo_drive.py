@@ -34,7 +34,6 @@ Uso:
     python .glados/respaldo_drive.py --forzar   # aunque el ultimo sea reciente
 """
 import argparse
-import os
 import sys
 import zipfile
 from datetime import datetime, timedelta
@@ -77,15 +76,6 @@ def destino() -> tuple[Path | None, str]:
         return None, (f"`respaldo_path` apunta a {p}, que no existe. "
                       "Si el cliente de sincronizacion no esta arrancado, arrancalo; "
                       "si la ruta cambio, corrigela.")
-
-    # La autodeteccion escribiria en la carpeta real de sincronizacion de quien
-    # ejecute esto. Bajo la propia suite de pruebas del kit eso significaria dejar un
-    # zip de verdad en el Drive de quien esta desarrollando el kit, asi que se
-    # desactiva ahi: `PYTEST_CURRENT_TEST` es la variable que pytest define por
-    # cada prueba en marcha. Una `respaldo_path` configurada explicitamente se sigue
-    # respetando siempre, tambien bajo pytest.
-    if os.environ.get("PYTEST_CURRENT_TEST"):
-        return None, "autodeteccion desactivada durante las pruebas del kit"
 
     for base in CANDIDATOS:
         if base.exists():
