@@ -83,25 +83,6 @@ def buscar(raiz, *, permitidos=None):
                 if m:
                     out.append(Hallazgo(f.relative_to(raiz), n, nombre, m.group(0)))
     return out
-    raiz = pathlib.Path(raiz)
-    out = []
-    for f in raiz.rglob("*"):
-        if not f.is_file() or f.suffix.lower() in BINARIOS:
-            continue
-        if IGNORAR & set(f.relative_to(raiz).parts):
-            continue
-        try:
-            datos = f.read_bytes()
-            encoding = _detectar_encoding(datos)
-            lineas = datos.decode(encoding, errors="ignore").splitlines()
-        except (OSError, UnicodeDecodeError):
-            continue
-        for n, linea in enumerate(lineas, 1):
-            for nombre, patron in PATRONES.items():
-                m = patron.search(linea)
-                if m:
-                    out.append(Hallazgo(f.relative_to(raiz), n, nombre, m.group(0)))
-    return out
 
 
 if __name__ == "__main__":
