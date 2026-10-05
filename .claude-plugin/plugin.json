@@ -6,5 +6,8 @@
     "name": "Francisco Segura",
     "url": "https://github.com/Fsegura-nter/glados-starter"
   },
-  "capabilities": { "skills": true, "agents": false }
+  "license": "MIT",
+  "homepage": "https://github.com/Fsegura-nter/glados-starter",
+  "repository": "https://github.com/Fsegura-nter/glados-starter",
+  "keywords": ["vault", "onboarding", "bootstrap", "knowledge"]
 }
