@@ -107,10 +107,27 @@ if ($venvPython -match '\s') {
     exit 1
 }
 
+# El directorio de datos (%LOCALAPPDATA%\<Nombre>) no tiene dueño por si solo: dos
+# bovedas con el mismo -Nombre compartirian venv, indice y respaldo sin darse cuenta.
+# Un marcador con la ruta de la boveda que lo creo detecta el choque antes de tocar
+# nada. Si el marcador falta (directorio de una ejecucion anterior a este arreglo),
+# se adopta sin preguntar. Si coincide, seguir en silencio: relanzar la misma boveda
+# tiene que seguir siendo idempotente.
+$markerPath = Join-Path $datosDir "vault.txt"
+if (Test-Path $markerPath) {
+    $marcado = (Get-Content -Raw -Encoding UTF8 -Path $markerPath).Trim()
+    if ($marcado -and $marcado -ne $Vault) {
+        Fallo "El nombre '$Nombre' ya esta en uso por otra boveda: $marcado. Elija otro -Nombre para esta."
+        exit 1
+    }
+} else {
+    New-Item -ItemType Directory -Force -Path $datosDir | Out-Null
+    Escribir-Utf8SinBom -Path $markerPath -Texto $Vault
+}
+
 if (Test-Path $venvPython) {
     Ok "El entorno virtual ya existe, se omite: $venvDir"
 } else {
-    New-Item -ItemType Directory -Force -Path $datosDir | Out-Null
     python -m venv $venvDir
     if ($LASTEXITCODE -ne 0 -or -not (Test-Path $venvPython)) {
         Fallo "No se ha podido crear el entorno virtual en $venvDir"
@@ -200,7 +217,20 @@ $scriptsNucleo = @(
     "requirements.txt"
 )
 foreach ($f in $scriptsNucleo) {
-    Copy-Item -Path (Join-Path $nucleoGlados $f) -Destination (Join-Path $vaultGlados $f) -Force
+    $origen = Join-Path $nucleoGlados $f
+    $destinoF = Join-Path $vaultGlados $f
+    if (Test-Path $destinoF) {
+        # Get-FileHash no esta disponible en todas las maquinas corporativas
+        # bloqueadas (confirmado en la de desarrollo: el modulo que lo trae no lo
+        # incluye aqui), asi que la comparacion es texto crudo con lo unico que
+        # esta garantizado: Get-Content.
+        $textoOrigen = Get-Content -Raw -Encoding UTF8 -Path $origen
+        $textoDestino = Get-Content -Raw -Encoding UTF8 -Path $destinoF
+        if ($textoOrigen -ne $textoDestino) {
+            Aviso "$f tenia cambios locales, sobrescrito"
+        }
+    }
+    Copy-Item -Path $origen -Destination $destinoF -Force
 }
 Ok "Nucleo (.glados) copiado/actualizado en $vaultGlados"
 
