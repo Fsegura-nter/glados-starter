@@ -1,5 +1,5 @@
 import subprocess, sys
-from herramientas.limpieza import buscar
+from herramientas.limpieza import buscar, leer_permitidos
 
 def test_detecta_dominio_interno(tmp_path):
     (tmp_path / "a.md").write_text("ver https://gitlab.nfqsolutions.es/x", encoding="utf-8")
@@ -79,3 +79,51 @@ def test_no_detecta_correos_de_cliente(tmp_path):
     (tmp_path / "config.py").write_text('CUSTOMER_MAIL = "ana@cliente.com"', encoding="utf-8")
     hallazgos = [h for h in buscar(tmp_path) if h.patron == "correo"]
     assert len(hallazgos) == 0, "No debe detectar correos de dominio externo"
+
+def test_la_lista_blanca_excluye_un_fichero(tmp_path):
+    # Sin lista blanca, debe detectarse el patrón
+    (tmp_path / "a.md").write_text("gitlab.nfqsolutions.es", encoding="utf-8")
+    assert len(buscar(tmp_path)) > 0, "Sin lista blanca debe encontrar el patrón"
+
+    # Con lista blanca que la permite, no se reporta
+    (tmp_path / ".limpieza-permitido").write_text("a.md", encoding="utf-8")
+    permitidos = leer_permitidos(tmp_path)
+    hallazgos = buscar(tmp_path, permitidos=permitidos)
+    assert hallazgos == [], "Con lista blanca debe excluir el fichero"
+
+def test_la_lista_blanca_ignora_comentarios_y_lineas_vacias(tmp_path):
+    # Crear un fichero con patrones
+    (tmp_path / "config.py").write_text("MAIL = 'admin@nfqsolutions.es'", encoding="utf-8")
+
+    # Lista blanca con comentarios y líneas vacías
+    permitidos_content = """# Comentario de cabecera
+# Lista blanca de ficheros permitidos
+
+config.py
+
+# Otro comentario
+
+"""
+    (tmp_path / ".limpieza-permitido").write_text(permitidos_content, encoding="utf-8")
+    permitidos = leer_permitidos(tmp_path)
+
+    # Debe excluir config.py a pesar de comentarios y líneas vacías
+    hallazgos = buscar(tmp_path, permitidos=permitidos)
+    assert hallazgos == [], "Lista blanca con comentarios debe funcionar"
+    assert "config.py" in permitidos
+
+def test_sin_fichero_de_lista_blanca_no_falla(tmp_path):
+    # Si no existe .limpieza-permitido, leer_permitidos retorna un conjunto vacío
+    permitidos = leer_permitidos(tmp_path)
+    assert permitidos == set(), "Sin fichero debe retornar conjunto vacío"
+
+    # Y buscar sigue funcionando sin error
+    (tmp_path / "a.md").write_text("instala el plugin", encoding="utf-8")
+    assert buscar(tmp_path, permitidos=permitidos) == []
+
+def test_el_cli_sale_0_sobre_el_repo_real(raiz):
+    # El CLI corre el barrido real del repo con la lista blanca
+    r = subprocess.run([sys.executable, str(raiz / "herramientas/limpieza.py")],
+                       capture_output=True, text=True)
+    assert r.returncode == 0, f"El repo debe estar limpio (exit 0), pero salió {r.returncode}\nStdout:\n{r.stdout}"
+    assert "excluidos por .limpieza-permitido" in r.stdout, "Debe mostrar qué ficheros se excluyeron"
