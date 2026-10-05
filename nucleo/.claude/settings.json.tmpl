@@ -1,0 +1,12 @@
+{
+  "hooks": {
+    "SessionStart":      [{ "hooks": [{ "type": "command", "command": "{{PYTHON}} {{VAULT}}\\.glados\\session_start.py" }] }],
+    "UserPromptSubmit":  [{ "hooks": [{ "type": "command", "command": "{{PYTHON}} {{VAULT}}\\.glados\\context_injector.py" }] }],
+    "PreCompact":        [{ "hooks": [{ "type": "command", "command": "{{PYTHON}} {{VAULT}}\\.glados\\precompact_snapshot.py" }] }],
+    "SessionEnd":        [{ "hooks": [
+      { "type": "command", "command": "{{PYTHON}} {{VAULT}}\\.glados\\precompact_snapshot.py" },
+      { "type": "command", "command": "{{PYTHON}} {{VAULT}}\\.glados\\commit_vault.py" },
+      { "type": "command", "command": "{{PYTHON}} {{VAULT}}\\.glados\\respaldo_drive.py" }
+    ] }]
+  }
+}

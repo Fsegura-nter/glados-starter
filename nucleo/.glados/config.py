@@ -17,6 +17,7 @@ DEFAULTS = {
     "nombre": "boveda",
     "colecciones": ["fuentes", "memoria"],
     "vocabulario": {},
+    "carpetas": {},
 }
 
 
@@ -65,6 +66,28 @@ def vocabulario() -> dict[str, list[str]]:
     """Vocabulario controlado de frontmatter, declarado en `settings.json`."""
     valor = local_settings().get("vocabulario")
     return valor if isinstance(valor, dict) else dict(DEFAULTS["vocabulario"])
+
+
+def carpetas() -> dict[str, str]:
+    """Nombres de carpeta por rol (`clientes`, `proyectos`, `fuentes`, `memoria`,
+    `archivo`...), declarados en `settings.json`.
+
+    Vacío por defecto, a propósito: la estructura de carpetas de un vault nuevo la
+    propone la entrevista de alta, no un valor de fábrica de este kit. Un hook que
+    necesite la carpeta de un rol debe tratar su ausencia como "esa función no aplica
+    en este vault", nunca como un error — el mismo principio que la capa de búsqueda
+    opcional.
+    """
+    valor = local_settings().get("carpetas")
+    return valor if isinstance(valor, dict) else dict(DEFAULTS["carpetas"])
+
+
+def snapshot_path() -> Path:
+    """Ruta del snapshot de sesión, compartida por `precompact_snapshot.py` (que lo
+    escribe) y `session_start.py` (que lo lee). No es una carpeta de contenido del
+    vault — vive siempre dentro de `.glados` — así que no depende de `carpetas()`.
+    """
+    return vault_path() / ".glados" / "last_session.md"
 
 
 def force_utf8() -> None:
