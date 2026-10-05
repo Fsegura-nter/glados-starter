@@ -175,6 +175,30 @@ def listar() -> list[tuple[str, str]]:
     return filas
 
 
+def huerfanas() -> list[str]:
+    """Claves guardadas que ningún consumidor sabe leer: el campo no está declarado
+    en `ENV_MAP` para ese servicio. La forma por proyecto (`<servicio>.tokens.<ruta>`)
+    es siempre legítima y nunca se marca huérfana, aunque el servicio solo declare un
+    `token` general: es la vía documentada para guardar un token por repositorio.
+
+    Sin esto, un error tipográfico al guardar (`gitlab.toekn` en vez de `gitlab.token`)
+    se guarda, `listar()` lo muestra como puesto para siempre, y todo consumidor sigue
+    leyendo vacío sin que nada lo avise: peor que no tener la credencial, porque esa
+    sí se nota.
+    """
+    salida: list[str] = []
+    for servicio, cont in _load().items():
+        if servicio.startswith("_") or not isinstance(cont, dict):
+            continue
+        conocidas = ENV_MAP.get(servicio, {})
+        for campo, entrada in cont.items():
+            if campo == TOKENS_KEY:
+                continue
+            if campo not in conocidas and _valor_de(entrada):
+                salida.append(f"{servicio}.{campo}")
+    return salida
+
+
 def env_for(servicio: str) -> dict[str, str]:
     """{VARIABLE_DE_ENTORNO: valor} de un servicio, solo con lo que esté puesto."""
     cont = _load().get(servicio) or {}
@@ -196,6 +220,12 @@ def _cmd_list() -> int:
         return 0
     for clave, forma in filas:
         print(f"  {clave:<30} {forma}")
+    huerfanas_ = huerfanas()
+    if huerfanas_:
+        print()
+        print("Guardadas pero NO usables — ningún consumidor sabe leerlas:")
+        for h in huerfanas_:
+            print(f"  · {h}")
     return 0
 
 
