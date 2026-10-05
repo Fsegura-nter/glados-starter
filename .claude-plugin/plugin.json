@@ -1,0 +1,10 @@
+{
+  "name": "glados-starter",
+  "version": "0.1.0",
+  "description": "Interviews you, reads your real work, and generates a console-first markdown vault with its own personality, hooks, search and backups.",
+  "author": {
+    "name": "Francisco Segura",
+    "url": "https://github.com/Fsegura-nter/glados-starter"
+  },
+  "capabilities": { "skills": true, "agents": false }
+}
