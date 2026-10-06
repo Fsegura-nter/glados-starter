@@ -95,18 +95,53 @@ def _redactar(texto: str) -> str:
     return limpio
 
 
+def _campos_mensaje_son_validos(m: dict) -> bool:
+    """Valida el TIPO de los campos que importan, no solo que `m` sea un dict.
+
+    `ruido.es_ruido` es defensivo y coacciona un campo del tipo equivocado (p.ej.
+    `cabeceras` como lista) a su valor por defecto en vez de lanzar — asi es como debe
+    ser para no tirar el barrido. Pero esa misma tolerancia hace que un mensaje roto
+    pase desapercibido como "util": no dispara ningun motivo de ruido, y su `de` (si es
+    una cadena valida) lo cuenta como persona real. Aqui se aplica el mismo criterio de
+    tipos que `ruido.py` usa internamente, pero para decidir si el mensaje cuenta como
+    material legible, no solo para no lanzar. Ausente (None) se acepta como ausente
+    —es el default que `ruido.py` ya asume—; presente con el tipo equivocado no.
+    """
+    cabeceras = m.get("cabeceras")
+    if cabeceras is not None and not isinstance(cabeceras, dict):
+        return False
+    de = m.get("de")
+    if de is not None and not isinstance(de, str):
+        return False
+    partes = m.get("partes")
+    if partes is not None and not isinstance(partes, (list, tuple)):
+        return False
+    return True
+
+
 def _barrer_correo(mensajes: list, avisos: list[str]) -> dict:
-    resumen = ruido.resumen(mensajes)
+    if not isinstance(mensajes, list):
+        mensajes = []
+    total = len(mensajes)
+
+    ilegibles = 0
+    validos: list[dict] = []
+    for m in mensajes:
+        if not isinstance(m, dict) or not _campos_mensaje_son_validos(m):
+            ilegibles += 1
+            continue
+        validos.append(m)
+
+    # resumen() y la extraccion de interlocutores corren SOLO sobre los mensajes que
+    # pasaron la validacion de tipos: un mensaje con 'cabeceras' como lista no debe
+    # contar como persona real solo porque ruido.py no lanzo al verlo.
+    resumen = ruido.resumen(validos)
 
     interlocutores: dict[str, int] = {}
     dominios: dict[str, int] = {}
     asuntos: dict[str, int] = {}
-    ilegibles = 0
 
-    for m in mensajes:
-        if not isinstance(m, dict):
-            ilegibles += 1
-            continue
+    for m in validos:
         descartar, _ = ruido.es_ruido(m)
         if descartar:
             continue
@@ -121,7 +156,7 @@ def _barrer_correo(mensajes: list, avisos: list[str]) -> dict:
         if isinstance(asunto, str) and asunto.strip():
             asuntos[asunto.strip()] = asuntos.get(asunto.strip(), 0) + 1
 
-    print(f"correo: {resumen['total']} mensajes, "
+    print(f"correo: {total} mensajes, "
           f"{resumen['cabecera'] + resumen['remitente'] + resumen['invitacion']} descartados "
           f"(cabecera {resumen['cabecera']}, remitente {resumen['remitente']}, "
           f"invitacion {resumen['invitacion']}), {resumen['utiles']} utiles, "
@@ -129,7 +164,7 @@ def _barrer_correo(mensajes: list, avisos: list[str]) -> dict:
 
     if resumen["utiles"] == 0:
         avisos.append(
-            f"Correo: sin mensajes utiles tras descartar ruido (0 de {resumen['total']}); "
+            f"Correo: sin mensajes utiles tras descartar ruido (0 de {total}); "
             "no hay material suficiente para deducir interlocutores ni estructura.")
     elif (resumen["utiles"] < ENVIADOS_MINIMOS_PARA_ESTILO
           or resumen["personas"] < ENVIADOS_MINIMOS_PARA_ESTILO):
@@ -142,11 +177,12 @@ def _barrer_correo(mensajes: list, avisos: list[str]) -> dict:
             "una estructura por si solo, la entrevista debe completarlo.")
 
     if ilegibles:
-        avisos.append(f"Correo: {ilegibles} mensaje(s) ilegible(s) omitido(s) "
-                       "(no son objetos validos).")
+        avisos.append(f"Correo: {ilegibles} mensaje(s) ilegible(s) omitido(s) (no son "
+                       "objetos validos, o tienen 'cabeceras'/'de'/'partes' con un tipo "
+                       "que no corresponde).")
 
     return {
-        "total": resumen["total"],
+        "total": total,
         "descartados": {
             "cabecera": resumen["cabecera"],
             "remitente": resumen["remitente"],
@@ -443,7 +479,9 @@ def _barrer_repos(ruta_repos: str | None, repos_de_fuente: list, avisos: list[st
 def _barrer_escritura(mensajes: list, avisos: list[str]) -> dict:
     enviados_utiles = []
     for m in mensajes:
-        if not isinstance(m, dict) or not m.get("enviado"):
+        if not isinstance(m, dict) or not _campos_mensaje_son_validos(m):
+            continue
+        if not m.get("enviado"):
             continue
         descartar, _ = ruido.es_ruido(m)
         if descartar:
@@ -484,11 +522,15 @@ def _barrer_escritura(mensajes: list, avisos: list[str]) -> dict:
     else:
         estilo = "indeterminado"
 
-    # Hasta tres muestras, repartidas por la lista, recortadas y redactadas: nunca el
-    # cuerpo entero, nunca sin pasar por redact.redactar.
+    # Hasta tres muestras, repartidas por la lista, redactadas y LUEGO recortadas: nunca
+    # el cuerpo entero, nunca sin pasar por redact.redactar. El orden importa: redactar
+    # primero y truncar despues, no al reves. Si se truncara antes, una credencial que
+    # cae justo en el corte de 300 caracteres queda partida por la mitad y la mitad que
+    # sobrevive sale sin redactar; redactando primero, el patron completo se sustituye
+    # por su marcador corto y el recorte gasta sus 300 caracteres en texto real.
     paso = max(1, len(enviados_utiles) // MUESTRAS_MAXIMAS)
     elegidas = enviados_utiles[::paso][:MUESTRAS_MAXIMAS]
-    muestras = [_redactar(c[:MUESTRA_MAX_CHARS]) for c in elegidas]
+    muestras = [_redactar(c)[:MUESTRA_MAX_CHARS] for c in elegidas]
 
     return {
         "enviados_utiles": len(enviados_utiles),

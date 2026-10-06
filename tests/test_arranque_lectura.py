@@ -99,24 +99,43 @@ def test_los_repos_de_fuente_pasan_por_redaccion(raiz, tmp_path):
 
 
 def test_las_muestras_se_redactan_y_se_truncan(raiz, tmp_path):
-    """Hallazgo 3: con 6 enviados utiles, `paso = max(1, 6 // 3) == 2`, asi que solo se
-    muestrean `enviados_utiles[::2][:3]` -> los indices 0, 2 y 4. El indice 0 SIEMPRE
-    entra en la muestra sea cual sea `paso` (list[::n][0] es siempre el primer elemento
-    si la lista no esta vacia), asi que ponemos ahi tanto la credencial como el cuerpo
-    largo: es la unica posicion de la que se puede estar seguro sin recalcular el paso
-    para el `n` elegido. Los otros 5 mensajes son relleno solo para superar el minimo
-    de 5 enviados utiles que exige un perfil de escritura."""
+    """Hallazgo 3 (segunda vuelta): la version anterior de este test ponia la
+    credencial alrededor del caracter 800 de un cuerpo largo. El recorte a 300
+    caracteres la eliminaba por si solo, asi que el test pasaba aunque se desactivara
+    `_redactar(...)` por completo — la tercera version de la misma trampa.
+
+    Esta version separa las dos cosas que hay que probar en DOS mensajes distintos:
+      - indice 0: la credencial va en los primeros caracteres del cuerpo, y el cuerpo
+        entero mide menos de 300 caracteres. Si desaparece de la salida, solo puede ser
+        porque `_redactar` la sustituyo — el recorte no llega a tocarla, este cuerpo
+        nunca se acerca al limite.
+      - indice 2: un cuerpo de mas de 300 caracteres sin ninguna credencial, para
+        probar que el recorte a 300 caracteres SIGUE pasando (no basta con quitar el
+        recorte para que la credencial se cuele: hay que demostrar que ambas cosas
+        conviven).
+    Con 6 enviados utiles, `paso = max(1, 6 // 3) == 2`, asi que se muestrean los
+    indices 0, 2 y 4 (`enviados_utiles[::2][:3]`): los indices 0 y 2 estan garantizados
+    dentro de la muestra para este `n` concreto. Los indices 1, 3 y 5 son relleno solo
+    para superar el minimo de 5 enviados utiles que exige un perfil de escritura.
+    """
     credencial = "eyJhbGciOiJIUzI1NiJ9.eyJhIjoxfQ.firma"
-    cuerpo_indice_0 = "palabra " * 100 + f" token: {credencial}"
+    cuerpo_credencial = f"Token: {credencial}\nUn saludo"  # < 300 caracteres a proposito
+    cuerpo_largo = "palabra " * 100  # 800 caracteres, sin ninguna credencial
+    cuerpos = {0: cuerpo_credencial, 2: cuerpo_largo}
     mensajes = [{"de": "yo@mio.com", "enviado": True, "cabeceras": {}, "partes": ["text/plain"],
                  "asunto": f"m{i}",
-                 "cuerpo": cuerpo_indice_0 if i == 0 else f"Hola,\nmensaje numero {i}.\nUn saludo"}
+                 "cuerpo": cuerpos.get(i, f"Hola,\nmensaje numero {i}.\nUn saludo")}
                 for i in range(6)]
     datos = {"mensajes": mensajes, "eventos": [], "drive": [], "repos": []}
     m, _ = ejecutar(raiz, tmp_path, datos)
     assert m["escritura"] != {}
+    muestras = m["escritura"]["muestras"]
+    # La credencial no sobrevive (prueba de redaccion: su cuerpo nunca se acerca a 300).
     assert credencial not in json.dumps(m)
-    for muestra in m["escritura"]["muestras"]:
+    # El recorte a 300 caracteres sigue pasando (prueba de truncado, sobre el cuerpo
+    # largo sin credencial): si el recorte se hubiera roto, esta muestra mediria 800.
+    assert any(len(s) == 300 for s in muestras)
+    for muestra in muestras:
         assert len(muestra) <= 300
 
 
@@ -136,11 +155,20 @@ def test_avisa_cuando_el_material_es_escaso_pero_no_nulo(raiz, tmp_path):
 def test_informa_de_los_registros_ilegibles(raiz, tmp_path):
     """Hallazgo 5: un registro individual malformado por fuente (mensaje, evento, Drive,
     repo) se absorbia sin dejar rastro en avisos. Un hueco silencioso aqui es justo lo
-    que el fichero existe para evitar."""
+    que el fichero existe para evitar.
+
+    Segunda vuelta (hallazgo 5 seguia abierto): ademas del string suelto, se anaden tres
+    mensajes que SI son dict (pasan `isinstance(m, dict)`) pero con un campo del tipo
+    equivocado: `cabeceras` como lista, `de` como numero, `partes` como texto suelto.
+    `ruido.es_ruido` los tolera sin lanzar (coacciona el campo a su default), que es
+    justo por lo que antes se colaban en 'utiles' como si fueran correo sano."""
     datos = {
         "mensajes": [
             "esto no es un mensaje",
             {"de": "ana@acme.com", "cabeceras": {}, "partes": ["text/plain"], "asunto": "ok"},
+            {"de": "x@y.com", "cabeceras": ["no-es-un-dict"], "partes": ["text/plain"]},
+            {"de": 12345, "cabeceras": {}, "partes": ["text/plain"]},
+            {"de": "x@y.com", "cabeceras": {}, "partes": "text/plain"},
         ],
         "eventos": [
             {"titulo": "Evento con fecha rota", "inicio": "fecha-invalida", "minutos": 30,
@@ -151,7 +179,12 @@ def test_informa_de_los_registros_ilegibles(raiz, tmp_path):
     }
     m, _ = ejecutar(raiz, tmp_path, datos)
     avisos = m["avisos"]
-    assert any("Correo: 1 mensaje" in a for a in avisos)
+    # 1 string suelto + 3 dict con un campo de tipo incorrecto = 4 mensajes ilegibles.
+    assert any("Correo: 4 mensaje" in a for a in avisos)
     assert any("Calendario: 1 evento" in a and "fecha" in a for a in avisos)
     assert any("Drive: 1 entrada" in a for a in avisos)
     assert any("Repos: 1 entrada" in a for a in avisos)
+    # Los tres mensajes mal tipados no deben contar como correo sano: solo el mensaje
+    # de ana@acme.com es valido, asi que utiles y personas tienen que quedarse en 1.
+    assert m["correo"]["utiles"] == 1
+    assert m["correo"]["personas"] == 1
