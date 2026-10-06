@@ -28,7 +28,8 @@ Fuentes:
   - `--repos RUTA`: recorre el disco (no es parte de `--fuente`) hasta 3 niveles buscando
     repositorios git y lee cada uno con `git`. Si `--fuente` trae una lista `repos` no vacía
     y no se pasó `--repos`, se usan esas entradas ya calculadas (pensadas para simular repos
-    sin tocar disco ni red).
+    sin tocar disco ni red) — pero no tal cual: se validan sus claves y todo texto libre
+    pasa por `redact.redactar`, igual que el resto de fuentes externas.
 
 Uso:
     python arranque_lectura.py --salida metricas.json [--meses 12] [--repos RUTA]
@@ -100,9 +101,11 @@ def _barrer_correo(mensajes: list, avisos: list[str]) -> dict:
     interlocutores: dict[str, int] = {}
     dominios: dict[str, int] = {}
     asuntos: dict[str, int] = {}
+    ilegibles = 0
 
     for m in mensajes:
         if not isinstance(m, dict):
+            ilegibles += 1
             continue
         descartar, _ = ruido.es_ruido(m)
         if descartar:
@@ -128,6 +131,19 @@ def _barrer_correo(mensajes: list, avisos: list[str]) -> dict:
         avisos.append(
             f"Correo: sin mensajes utiles tras descartar ruido (0 de {resumen['total']}); "
             "no hay material suficiente para deducir interlocutores ni estructura.")
+    elif (resumen["utiles"] < ENVIADOS_MINIMOS_PARA_ESTILO
+          or resumen["personas"] < ENVIADOS_MINIMOS_PARA_ESTILO):
+        # Material escaso pero no nulo: tres correos utiles parecen tan sanos como
+        # trescientos a quien lea solo este fichero. Mismo umbral que el perfil de
+        # escritura, para no inventar un segundo numero sin motivo.
+        avisos.append(
+            f"Correo: material escaso ({resumen['utiles']} utiles, {resumen['personas']} "
+            f"personas); por debajo de {ENVIADOS_MINIMOS_PARA_ESTILO} no basta para proponer "
+            "una estructura por si solo, la entrevista debe completarlo.")
+
+    if ilegibles:
+        avisos.append(f"Correo: {ilegibles} mensaje(s) ilegible(s) omitido(s) "
+                       "(no son objetos validos).")
 
     return {
         "total": resumen["total"],
@@ -176,22 +192,30 @@ def _barrer_calendario(eventos: list, avisos: list[str]) -> dict:
     import datetime
 
     grupos: dict[str, dict] = {}
+    sin_titulo = 0
+    sin_fecha = 0
     for ev in eventos:
         if not isinstance(ev, dict):
+            sin_titulo += 1
             continue
         titulo = ev.get("titulo")
         if not isinstance(titulo, str) or not titulo.strip():
+            sin_titulo += 1
             continue
         clave = _normalizar_titulo(titulo)
         grupo = grupos.setdefault(clave, {
             "titulo": titulo.strip(), "fechas": [], "asistentes": set(), "minutos": [],
         })
         inicio = ev.get("inicio")
+        fecha_leida = False
         if isinstance(inicio, str):
             try:
                 grupo["fechas"].append(datetime.datetime.fromisoformat(inicio))
+                fecha_leida = True
             except ValueError:
                 pass
+        if not fecha_leida:
+            sin_fecha += 1
         asistentes = ev.get("asistentes")
         if isinstance(asistentes, list):
             for a in asistentes:
@@ -223,6 +247,11 @@ def _barrer_calendario(eventos: list, avisos: list[str]) -> dict:
 
     if not series:
         avisos.append("Calendario: sin eventos con titulo; no hay series que detectar.")
+    if sin_titulo:
+        avisos.append(f"Calendario: {sin_titulo} evento(s) sin titulo utilizable omitido(s).")
+    if sin_fecha:
+        avisos.append(f"Calendario: {sin_fecha} evento(s) sin fecha utilizable "
+                       "(no contaron para la cadencia).")
 
     return {"series": series}
 
@@ -233,12 +262,15 @@ def _barrer_calendario(eventos: list, avisos: list[str]) -> dict:
 def _barrer_drive(items: list, avisos: list[str]) -> dict:
     carpetas: dict[str, int] = {}
     compartidas: dict[str, set] = {}
+    ilegibles = 0
 
     for it in items:
         if not isinstance(it, dict):
+            ilegibles += 1
             continue
         carpeta = it.get("carpeta")
         if not isinstance(carpeta, str) or not carpeta.strip():
+            ilegibles += 1
             continue
         carpeta = carpeta.strip()
         if it.get("propia"):
@@ -251,6 +283,9 @@ def _barrer_drive(items: list, avisos: list[str]) -> dict:
     if not items:
         avisos.append("Drive: sin material disponible (ni --fuente ni modulo google); "
                        "no hay carpetas que proponer.")
+    if ilegibles:
+        avisos.append(f"Drive: {ilegibles} entrada(s) ilegible(s) omitida(s) "
+                       "(sin carpeta valida).")
 
     return {
         "carpetas_con_actividad": [
@@ -343,6 +378,30 @@ def _analizar_repo(repo_dir: Path) -> dict:
     }
 
 
+# Claves de texto libre de una entrada de repo de --fuente: se validan y se pasan por
+# _redactar igual que cualquier otro texto que entra en el payload desde fuera. La única
+# clave adicional que se acepta es "commits_usuario" (entero); cualquier otra clave de la
+# entrada original se descarta en vez de copiarse tal cual.
+CAMPOS_REPO_TEXTO = ("nombre", "remoto", "lenguaje_principal", "primera_linea_readme")
+
+
+def _normalizar_repo_de_fuente(r: dict) -> dict:
+    """Valida y redacta una entrada de `repos` de --fuente (modo simulado).
+
+    No se copia nada tal cual: solo las claves conocidas, con los tipos esperados, y
+    todo texto libre pasado por `_redactar` antes de entrar en el payload — el mismo
+    tratamiento que recibe un asunto de correo o una carpeta de Drive. Sin esto, una
+    credencial puesta por error en un repo simulado habría salido byte a byte.
+    """
+    salida: dict = {}
+    for campo in CAMPOS_REPO_TEXTO:
+        valor = r.get(campo)
+        salida[campo] = _redactar(valor) if isinstance(valor, str) and valor else None
+    commits = r.get("commits_usuario")
+    salida["commits_usuario"] = commits if isinstance(commits, int) else 0
+    return salida
+
+
 def _barrer_repos(ruta_repos: str | None, repos_de_fuente: list, avisos: list[str]) -> dict:
     if ruta_repos:
         raiz = Path(ruta_repos)
@@ -361,8 +420,19 @@ def _barrer_repos(ruta_repos: str | None, repos_de_fuente: list, avisos: list[st
         return {"repositorios": resultados}
 
     if repos_de_fuente:
-        # --fuente trae entradas ya calculadas (modo simulado): se usan tal cual, sin git.
-        return {"repositorios": [r for r in repos_de_fuente if isinstance(r, dict)]}
+        # --fuente trae entradas ya calculadas (modo simulado): se validan y se redactan,
+        # nunca se copian tal cual (no se toca git ni disco en este camino).
+        resultados = []
+        ilegibles = 0
+        for r in repos_de_fuente:
+            if isinstance(r, dict):
+                resultados.append(_normalizar_repo_de_fuente(r))
+            else:
+                ilegibles += 1
+        if ilegibles:
+            avisos.append(f"Repos: {ilegibles} entrada(s) de --fuente ilegible(s) "
+                           "omitida(s) (no son objetos validos).")
+        return {"repositorios": resultados}
 
     return {"repositorios": []}
 
@@ -501,8 +571,21 @@ def _leer_fuentes(fuente: str | None, meses: int, avisos: list[str]):
 # ---------------------------------------------------------------------------- recorte
 
 
+def _serializar(payload: dict) -> str:
+    """Forma canonica de serializar la salida.
+
+    Es, a propósito, la MISMA cadena que `_tamano_bytes` mide y la que `main()` escribe
+    a disco. Medir con una forma (p.ej. sin `indent`) y escribir con otra (con `indent=2`)
+    deja que el recorte decida "cabe" sobre un tamaño que no es el que termina en el
+    fichero — el hallazgo que motivo este cambio: un sweep de 1000 mensajes vio 49 966
+    bytes en la medicion y escribio 75 098 en disco, un 15% por encima del tope de 64 KB,
+    reportando exito. Sin `indent`: es un fichero para que lo lea una maquina, no a mano.
+    """
+    return json.dumps(payload, ensure_ascii=False)
+
+
 def _tamano_bytes(payload: dict) -> int:
-    return len(json.dumps(payload, ensure_ascii=False).encode("utf-8"))
+    return len(_serializar(payload).encode("utf-8"))
 
 
 def _recortar_hasta_caber(payload: dict, limite: int = TOPE_SALIDA_BYTES) -> bool:
@@ -568,7 +651,7 @@ def main() -> int:
 
     salida_path = Path(args.salida)
     salida_path.parent.mkdir(parents=True, exist_ok=True)
-    salida_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+    salida_path.write_text(_serializar(payload), encoding="utf-8")
 
     print(f"Barrido escrito en {salida_path} ({_tamano_bytes(payload)} bytes).")
     for aviso in avisos:
