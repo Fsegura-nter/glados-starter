@@ -8,8 +8,7 @@ REMITENTES = re.compile(
     r"|^(?:mailer(?:-daemon)?|bounce|bounces\+\w+)@"
     r"|@(?:github\.com|gitlab\.|.*\.atlassian\.net|jira\.|teams\.|.*sharepointonline"
     r"|linkedin\.com|mailchimp\.com|mailchimp-|substack\.com|sendgrid\.net"
-    r"|constantcontact\.com)"
-    r"|mailgun|campaign-archive",
+    r"|constantcontact\.com|(?:.*\.)?mailgun\.(?:org|com|net)|(?:.*\.)?campaign-archive\.com)",
     re.I)
 
 
@@ -22,11 +21,15 @@ def _extraer_direccion(de):
 
 
 def es_ruido(mensaje):
-    # Entrada defensiva: non-dict o None → tratar como vacío
+    # Entrada defensiva: validación de tipos
     if not isinstance(mensaje, dict):
         return False, ""
 
-    cab = {k.lower(): v for k, v in (mensaje.get("cabeceras") or {}).items()}
+    cabeceras = mensaje.get("cabeceras")
+    if not isinstance(cabeceras, dict):
+        cabeceras = {}
+    cab = {k.lower(): v for k, v in cabeceras.items()}
+
     if any(c in cab for c in CABECERAS_RUIDO):
         return True, "cabecera"
     if cab.get("precedence", "").strip().lower() in PRECEDENCIAS:
@@ -34,11 +37,16 @@ def es_ruido(mensaje):
     if cab.get("auto-submitted", "").strip().lower().startswith("auto-"):
         return True, "cabecera"
 
-    partes = [p.lower() for p in (mensaje.get("partes") or [])]
+    partes_raw = mensaje.get("partes")
+    if not isinstance(partes_raw, (list, tuple)):
+        partes_raw = []
+    partes = [p.lower() for p in partes_raw]
     if "text/calendar" in partes or "method=" in cab.get("content-type", "").lower():
         return True, "invitacion"
 
-    de_raw = mensaje.get("de") or ""
+    de_raw = mensaje.get("de")
+    if not isinstance(de_raw, str):
+        de_raw = ""
     de = _extraer_direccion(de_raw)
 
     # Verificar si es un aviso de calendario por remitente

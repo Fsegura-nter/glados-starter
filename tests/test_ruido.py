@@ -66,8 +66,14 @@ def test_no_revienta_con_campos_nulos_ni_basura(raiz):
     r = cargar(raiz)
     pruebas = [
         {"cabeceras": None},
+        {"cabeceras": ["x"]},
+        {"cabeceras": 42},
         {"de": None},
+        {"de": 123},
+        {"de": ["a"]},
         {"partes": None},
+        {"partes": "texto"},
+        {"partes": 7},
         {},
         None,
         "texto",
@@ -76,6 +82,15 @@ def test_no_revienta_con_campos_nulos_ni_basura(raiz):
     for entrada in pruebas:
         resultado = r.es_ruido(entrada)
         assert isinstance(resultado, tuple) and len(resultado) == 2
+
+    # Verify resumen doesn't raise with mixed valid and invalid
+    datos = r.resumen([
+        {"de": "ana@cliente.com", "cabeceras": {}, "partes": []},
+        {"cabeceras": ["x"]},
+        {"de": 123},
+        {"de": "luis@otro.com", "cabeceras": {}, "partes": []},
+    ])
+    assert datos["cabecera"] + datos["remitente"] + datos["invitacion"] + datos["utiles"] == datos["total"]
 
 def test_descarta_boletines_y_redes_por_dominio(raiz):
     r = cargar(raiz)
@@ -110,3 +125,25 @@ def test_descarta_un_mailer_daemon_de_verdad(raiz):
     assert r.es_ruido(msg(de="mailer-daemon@x.com")) == (True, "remitente")
     assert r.es_ruido(msg(de="bounce@x.com")) == (True, "remitente")
     assert r.es_ruido(msg(de="bounces+algo@x.com")) == (True, "remitente")
+
+def test_las_reglas_de_dominio_no_tocan_la_parte_local(raiz):
+    r = cargar(raiz)
+    # Debe conservar: la parte local no es ruido, aunque contenga palabras ruido
+    for d in [
+        "mailgun@cliente.com",
+        "ana.mailgun@cliente.com",
+        "ana@mailgunning.com",
+        "jose.campaign-archive@cliente.com",
+        "ana.sendgrid@cliente.com",
+        "ana.linkedin@cliente.com",
+    ]:
+        assert r.es_ruido(msg(de=d)) == (False, ""), f"False positive: {d}"
+
+    # Debe descartar: dominios de ruido reales
+    for d in [
+        "x@mg.mailgun.org",
+        "x@mailgun.com",
+        "x@campaign-archive.com",
+        "member@linkedin.com",
+    ]:
+        assert r.es_ruido(msg(de=d))[0] is True, f"False negative: {d}"

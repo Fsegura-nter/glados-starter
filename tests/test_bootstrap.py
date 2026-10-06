@@ -44,7 +44,7 @@ def test_deja_el_vault_con_hooks_resueltos_y_sin_remoto(raiz, tmp_path):
     cfg = json.loads((destino / ".claude/settings.json").read_text(encoding="utf-8"))
     cmd = cfg["hooks"]["SessionStart"][0]["hooks"][0]["command"]
     assert "{{" not in cmd and "'" not in cmd and "&" not in cmd
-    remotos = subprocess.run(["git", "remote"], cwd=destino, capture_output=True, text=True)
+    remotos = subprocess.run(["git", "remote"], cwd=destino, capture_output=True, text=True, encoding="utf-8")
     assert remotos.stdout.strip() == ""
     assert (destino / ".glados/session_start.py").exists()
 
