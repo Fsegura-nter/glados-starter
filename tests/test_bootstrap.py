@@ -1,4 +1,4 @@
-import os, subprocess, json, pytest
+import os, shutil, subprocess, json, pytest
 
 def ps(raiz, tmp_path, *args):
     """Lanza `bootstrap.ps1` con `LOCALAPPDATA` redirigido a una subcarpeta de
@@ -97,3 +97,28 @@ def test_rechaza_un_nombre_ya_usado_por_otro_vault(raiz, tmp_path):
     assert r.returncode == 1
     assert str(vault_a) in (r.stdout + r.stderr)
     assert not vault_b.exists()
+
+def test_adopta_el_directorio_de_datos_de_una_boveda_borrada(raiz, tmp_path):
+    """Hallazgo 4: un marcador que nombra una boveda que ya no existe en disco no es
+    un choque -- nada puede estar compartiendo estado con algo borrado. El directorio
+    de datos se adopta para la boveda nueva en vez de dar un FALLO sin salida.
+    """
+    vault_a = tmp_path / "boveda_a"
+    vault_b = tmp_path / "boveda_b"
+    assert ps(raiz, tmp_path, "-Vault", str(vault_a), "-Nombre", "boveda", "-SinDependencias").returncode == 0
+
+    def _quitar_solo_lectura(func, path, exc_info):
+        # los objetos de `.git` en Windows a veces quedan marcados solo-lectura
+        os.chmod(path, 0o666)
+        func(path)
+    shutil.rmtree(vault_a, onerror=_quitar_solo_lectura)  # borra el VAULT; el directorio
+    # de datos (LOCALAPPDATA) queda intacto -- es justo lo que esta prueba necesita
+    assert not vault_a.exists()
+
+    r = ps(raiz, tmp_path, "-Vault", str(vault_b), "-Nombre", "boveda", "-SinDependencias")
+    assert r.returncode == 0
+    assert "AVISO" in r.stdout and str(vault_a) in r.stdout
+    assert vault_b.exists()
+
+    marcador = tmp_path / "_lad" / "boveda" / "vault.txt"
+    assert marcador.read_text(encoding="utf-8").strip() == str(vault_b)

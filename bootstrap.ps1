@@ -112,13 +112,21 @@ if ($venvPython -match '\s') {
 # Un marcador con la ruta de la boveda que lo creo detecta el choque antes de tocar
 # nada. Si el marcador falta (directorio de una ejecucion anterior a este arreglo),
 # se adopta sin preguntar. Si coincide, seguir en silencio: relanzar la misma boveda
-# tiene que seguir siendo idempotente.
+# tiene que seguir siendo idempotente. Si el marcador nombra OTRA boveda, importa si
+# esa boveda sigue existiendo: nada puede estar compartiendo estado con una que ya se
+# borro, asi que negarse ahi no protege nada y solo deja al usuario un FALLO sin
+# explicacion. Se adopta el directorio en ese caso, igual que si el marcador faltara.
 $markerPath = Join-Path $datosDir "vault.txt"
 if (Test-Path $markerPath) {
     $marcado = (Get-Content -Raw -Encoding UTF8 -Path $markerPath).Trim()
     if ($marcado -and $marcado -ne $Vault) {
-        Fallo "El nombre '$Nombre' ya esta en uso por otra boveda: $marcado. Elija otro -Nombre para esta."
-        exit 1
+        if (Test-Path $marcado) {
+            Fallo "El nombre '$Nombre' ya esta en uso por otra boveda: $marcado. Elija otro -Nombre para esta."
+            exit 1
+        } else {
+            Aviso "El directorio de datos pertenecia a una boveda que ya no existe ($marcado), se adopta para esta."
+            Escribir-Utf8SinBom -Path $markerPath -Texto $Vault
+        }
     }
 } else {
     New-Item -ItemType Directory -Force -Path $datosDir | Out-Null
