@@ -7,7 +7,7 @@ tags: []
 fecha: {{date:YYYY-MM-DD}}
 ---
 
-## Descripcion
+## Descripción
 
 ## Decisiones
 
