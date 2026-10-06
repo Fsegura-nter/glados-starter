@@ -47,6 +47,12 @@ def test_deja_el_vault_con_hooks_resueltos_y_sin_remoto(raiz, tmp_path):
     remotos = subprocess.run(["git", "remote"], cwd=destino, capture_output=True, text=True, encoding="utf-8")
     assert remotos.stdout.strip() == ""
     assert (destino / ".glados/session_start.py").exists()
+    # El kit es desechable: tras desinstalar el plugin, la unica copia de cada script
+    # vive en la boveda generada. Una comparacion de listados (no una lista a mano)
+    # para que el siguiente script que se añada al nucleo no se pueda olvidar aqui.
+    nucleo_py = {p.name for p in (raiz / "nucleo/.glados").glob("*.py")}
+    vault_py = {p.name for p in (destino / ".glados").glob("*.py")}
+    assert nucleo_py <= vault_py, f"faltan en la boveda generada: {nucleo_py - vault_py}"
 
 def test_relanzarlo_no_rompe_nada(raiz, tmp_path):
     destino = tmp_path / "boveda"

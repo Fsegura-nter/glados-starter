@@ -222,6 +222,7 @@ $scriptsNucleo = @(
     "config.py", "credentials.py", "redact.py", "session_start.py",
     "precompact_snapshot.py", "commit_vault.py", "respaldo_drive.py",
     "context_injector.py", "lexical.py", "index_docs.py", "query_docs.py",
+    "doctor.py", "ruido.py", "arranque_lectura.py", "generar_vault.py",
     "requirements.txt"
 )
 foreach ($f in $scriptsNucleo) {
