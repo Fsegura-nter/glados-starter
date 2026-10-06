@@ -46,3 +46,67 @@ def test_el_resumen_cuadra(raiz):
     assert datos["utiles"] == 2
     assert datos["personas"] == 2
     assert datos["cabecera"] + datos["invitacion"] + datos["remitente"] == 3
+
+def test_la_misma_persona_con_nombre_para_mostrar_cuenta_una_vez(raiz):
+    r = cargar(raiz)
+    datos = r.resumen([
+        msg(de="ana@cliente.com"),
+        msg(de="Ana@cliente.com"),
+        msg(de='"Ana Perez" <ana@cliente.com>'),
+        msg(de="luis@otro.com"),
+    ])
+    assert datos["personas"] == 2
+    assert datos["utiles"] == 4
+
+def test_un_noreply_escondido_tras_un_nombre_se_descarta(raiz):
+    r = cargar(raiz)
+    assert r.es_ruido(msg(de='"Equipo" <noreply@x.com>')) == (True, "remitente")
+
+def test_no_revienta_con_campos_nulos_ni_basura(raiz):
+    r = cargar(raiz)
+    pruebas = [
+        {"cabeceras": None},
+        {"de": None},
+        {"partes": None},
+        {},
+        None,
+        "texto",
+        42,
+    ]
+    for entrada in pruebas:
+        resultado = r.es_ruido(entrada)
+        assert isinstance(resultado, tuple) and len(resultado) == 2
+
+def test_descarta_boletines_y_redes_por_dominio(raiz):
+    r = cargar(raiz)
+    for d in [
+        "member@linkedin.com",
+        "hello@mailchimp.com",
+        "news@substack.com",
+        "bounce@sendgrid.net",
+        "notify@mg.mailgun.org",
+        "campaign@campaign-archive.com",
+        "hello@constantcontact.com",
+    ]:
+        assert r.es_ruido(msg(de=d))[0] is True
+
+def test_descarta_avisos_de_calendario_por_remitente(raiz):
+    r = cargar(raiz)
+    assert r.es_ruido(msg(de="calendar-notification@google.com")) == (True, "invitacion")
+    assert r.es_ruido(msg(de="calendar-server@google.com")) == (True, "invitacion")
+
+def test_no_descarta_a_alguien_que_se_llama_mailer_o_bounce(raiz):
+    r = cargar(raiz)
+    for d in [
+        "ana.mailer@cliente.com",
+        "juan.bounce@cliente.com",
+        "maria.notario@cliente.com",
+        "jose.teams@cliente.com",
+    ]:
+        assert r.es_ruido(msg(de=d)) == (False, "")
+
+def test_descarta_un_mailer_daemon_de_verdad(raiz):
+    r = cargar(raiz)
+    assert r.es_ruido(msg(de="mailer-daemon@x.com")) == (True, "remitente")
+    assert r.es_ruido(msg(de="bounce@x.com")) == (True, "remitente")
+    assert r.es_ruido(msg(de="bounces+algo@x.com")) == (True, "remitente")
