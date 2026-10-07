@@ -131,13 +131,37 @@ def _notas(vault: Path):
         yield ruta
 
 
-def _comandos_hooks(vault: Path) -> list[tuple[str, str]]:
-    """[(evento, comando), ...] de `.claude/settings.json`. `[]` si no existe o no es
-    JSON válido — nunca lanza."""
+def _settings_claude(vault: Path) -> tuple[dict | None, str | None]:
+    """(datos, None) si `.claude/settings.json` es un objeto JSON válido.
+    (None, motivo_en_castellano) en cualquier otro caso — ausente, ilegible, JSON roto,
+    o JSON válido que no es un objeto (una lista, por ejemplo, que es justo el caso
+    que antes hacía que `datos.get("hooks")` lanzara `AttributeError` sin capturar).
+    Nunca lanza.
+    """
     ruta = vault / ".claude" / "settings.json"
+    if not ruta.is_file():
+        return None, f"no existe {ruta}"
     try:
-        datos = json.loads(ruta.read_text(encoding="utf-8"))
-    except Exception:
+        texto = ruta.read_text(encoding="utf-8")
+    except OSError:
+        return None, f"no se pudo leer {ruta}"
+    try:
+        datos = json.loads(texto)
+    except json.JSONDecodeError as e:
+        return None, (f"{ruta} no es JSON válido (línea {e.lineno}, "
+                       f"columna {e.colno})")
+    if not isinstance(datos, dict):
+        return None, (f"{ruta} no contiene un objeto JSON en la raíz "
+                       "(es una lista u otro valor), así que los hooks no se "
+                       "pueden leer")
+    return datos, None
+
+
+def _comandos_hooks(vault: Path) -> list[tuple[str, str]]:
+    """[(evento, comando), ...] de `.claude/settings.json`. `[]` si no existe, no es
+    JSON válido, o su forma no es la esperada — nunca lanza."""
+    datos, motivo = _settings_claude(vault)
+    if datos is None:
         return []
     hooks = datos.get("hooks")
     if not isinstance(hooks, dict):
@@ -210,9 +234,23 @@ def _frontmatter(ruta: Path) -> dict:
 
 def chequeo_remoto(vault: Path) -> Chequeo:
     """Única barrera entre una bóveda con datos de cliente y un host público: va
-    primero a propósito."""
+    primero a propósito.
+
+    Antes de fiarse de un `stdout` vacío, comprueba que esto es de verdad un
+    repositorio git: `git remote -v` también sale vacío (por `stdout`) cuando la
+    carpeta nunca tuvo `git init`, y en ese caso `stdout` vacío NO significa "sin
+    remoto, bien" — significa que no hay ni historial ni forma de deshacer un
+    borrado, que es peor que tener un remoto y mucho peor que lo que este chequeo
+    estaba diciendo antes de este arreglo.
+    """
     r = subprocess.run(["git", "remote", "-v"], cwd=vault,
                         capture_output=True, text=True, encoding="utf-8")
+    if r.returncode != 0 or not (vault / ".git").is_dir():
+        return Chequeo("remoto git", "fallo",
+                        "esta carpeta no es un repositorio git (o su .git ha "
+                        "desaparecido): sin historial, sin forma de deshacer un "
+                        "borrado, y sin ninguna de las protecciones que el resto de "
+                        "este diseño asume. Arréglelo con: git init")
     remotos = [l for l in r.stdout.splitlines() if l.strip()]
     if remotos:
         return Chequeo("remoto git", "fallo",
@@ -225,13 +263,19 @@ def chequeo_remoto(vault: Path) -> Chequeo:
 # --------------------------------------------------------------------- chequeo 2: hooks
 
 def chequeo_hooks(vault: Path) -> Chequeo:
-    ruta_settings = vault / ".claude" / "settings.json"
-    if not ruta_settings.is_file():
-        return Chequeo("hooks", "fallo", f"no existe {ruta_settings}")
+    datos, motivo = _settings_claude(vault)
+    if datos is None:
+        return Chequeo("hooks", "fallo", motivo)
+
+    hooks = datos.get("hooks")
+    if not isinstance(hooks, dict):
+        return Chequeo("hooks", "fallo",
+                        ".claude/settings.json no declara la clave 'hooks' como un "
+                        "objeto; no hay hooks que leer")
 
     comandos = _comandos_hooks(vault)
     if not comandos:
-        return Chequeo("hooks", "fallo", f"{ruta_settings} no declara ningún hook")
+        return Chequeo("hooks", "fallo", ".claude/settings.json no declara ningún hook")
 
     problemas = []
     vistos = set()
@@ -253,9 +297,11 @@ def chequeo_hooks(vault: Path) -> Chequeo:
             texto = script.read_text(encoding="utf-8")
             compile(texto, str(script), "exec")
         except SyntaxError as e:
-            problemas.append(f"{evento}: {script.name} no compila ({e})")
-        except Exception as e:
-            problemas.append(f"{evento}: no se pudo leer {script.name} ({e})")
+            problemas.append(f"{evento}: {script.name} no compila "
+                              f"(error de sintaxis en la línea {e.lineno})")
+        except Exception:
+            problemas.append(f"{evento}: no se pudo leer o decodificar "
+                              f"{script.name} (compruebe que está en UTF-8)")
 
     faltan = [h for h in HOOKS_ESPERADOS if h not in vistos]
     if faltan:
@@ -480,8 +526,12 @@ def chequeo_modulos(vault: Path) -> Chequeo:
 
     try:
         datos = json.loads(ruta.read_text(encoding="utf-8"))
-    except Exception as e:
-        return Chequeo("módulos", "fallo", f"estado_modulos.json no es JSON válido: {e}")
+    except json.JSONDecodeError as e:
+        return Chequeo("módulos", "fallo",
+                        f"estado_modulos.json no es JSON válido (línea {e.lineno}, "
+                        f"columna {e.colno})")
+    except Exception:
+        return Chequeo("módulos", "fallo", "no se pudo leer estado_modulos.json")
     if not isinstance(datos, dict):
         return Chequeo("módulos", "fallo", "estado_modulos.json no contiene un objeto")
 

@@ -75,3 +75,51 @@ def test_el_cli_sale_1_cuando_hay_un_fallo(raiz, tmp_path):
     r = subprocess.run([sys.executable, str(raiz / "nucleo/.glados/doctor.py"),
                         "--vault", str(v)], capture_output=True, text=True, timeout=300)
     assert r.returncode == 1
+
+
+def test_avisa_si_la_boveda_no_es_un_repositorio_git(raiz, tmp_path):
+    """Fix round 1, hallazgo 1: `git remote -v` también sale vacío por `stdout` en una
+    carpeta que nunca tuvo `git init` (sale por `stderr` con código 128), y antes del
+    arreglo eso se leía como "sin remoto, ok" -- el peor falso positivo posible, porque
+    este chequeo es la única barrera entre datos de cliente y un host público.
+    """
+    d = cargar(raiz)
+    v = tmp_path / "no_es_un_repositorio"
+    v.mkdir()
+    chequeos = {c.nombre: c for c in d.diagnosticar(v)}
+    assert chequeos["remoto git"].estado == "fallo"
+
+    r = subprocess.run([sys.executable, str(raiz / "nucleo/.glados/doctor.py"),
+                        "--vault", str(v)], capture_output=True, text=True, timeout=60)
+    assert r.returncode == 1
+
+
+def test_la_boveda_sana_sigue_dando_ok_en_remoto_git(raiz, tmp_path):
+    """Compañera de la prueba anterior: el arreglo no puede sobrecorregir y gritar
+    lobo en el caso normal (una bóveda recién creada por bootstrap.ps1, que SÍ es un
+    repositorio git y SÍ está sin remoto)."""
+    d = cargar(raiz)
+    v = vault_sano(raiz, tmp_path)
+    chequeos = {c.nombre: c for c in d.diagnosticar(v)}
+    assert chequeos["remoto git"].estado == "ok"
+
+
+def test_un_settings_json_que_no_es_un_objeto_se_explica_en_castellano(raiz, tmp_path):
+    """Fix round 1, hallazgo 2: `settings.json` como una lista en vez de un objeto
+    hacía que `datos.get("hooks")` lanzara `AttributeError` sin capturar, y ese texto
+    de excepción en inglés llegaba tal cual al detalle del chequeo. Este kit no tiene
+    soporte: ese mensaje es lo único que alguien va a leer, y tiene que decir qué
+    arreglar, en castellano.
+    """
+    d = cargar(raiz)
+    v = vault_sano(raiz, tmp_path)
+    (v / ".claude" / "settings.json").write_text("[]", encoding="utf-8")
+
+    chequeos = {c.nombre: c for c in d.diagnosticar(v)}
+    hooks = chequeos["hooks"]
+    assert hooks.estado == "fallo"
+    detalle_bajo = hooks.detalle.lower()
+    assert "object has no attribute" not in detalle_bajo
+    assert "attribute" not in detalle_bajo
+    assert "traceback" not in detalle_bajo
+    assert "objeto" in detalle_bajo
