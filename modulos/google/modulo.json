@@ -1,0 +1,15 @@
+{
+  "nombre": "google",
+  "descripcion": "OAuth propio de Google (sin google-auth) y triage/redacción de Gmail: perfil de escritura, bandeja de entrada y borradores. Nunca envía: no hay llamada al endpoint de envío de mensajes ni al de envío de un borrador en todo el repo.",
+  "ficheros": [
+    "google_auth.py",
+    "gmail_api.py",
+    "gmail_bandeja.py",
+    "gmail_perfil.py",
+    "comandos/responde.md",
+    "comandos/correos.md"
+  ],
+  "destino": ".glados",
+  "prueba_de_vida": "python .glados/google_auth.py check",
+  "requiere": ["google.client_id", "google.client_secret", "google.refresh_token"]
+}

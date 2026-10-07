@@ -1,0 +1,14 @@
+{
+  "nombre": "paneles",
+  "descripcion": "Navegacion por areas de trabajo en vez de por carpetas: genera un panel y sus consultas .base por cada area declarada en settings.json, audita que el frontmatter cumple el vocabulario del vault, enlaza menciones entre notas, y el comando /consolidar que vuelca a la ficha lo que la memoria del vault ya sabe. Las areas se leen siempre de .glados/settings.json, nunca de una lista fija.",
+  "ficheros": [
+    "paneles_area.py",
+    "auditar_vault.py",
+    "autolink.py",
+    "consolidar.py",
+    "comandos/consolidar.md"
+  ],
+  "destino": ".glados",
+  "prueba_de_vida": "python .glados/auditar_vault.py",
+  "requiere": []
+}

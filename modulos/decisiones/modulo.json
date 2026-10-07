@@ -1,0 +1,13 @@
+{
+  "nombre": "decisiones",
+  "descripcion": "Red de seguridad para decisiones que se toman en conversación y nunca llegan a una ficha: un hook de SessionEnd que detecta entidades trabajadas a fondo cuya ficha no cambió, un hook de Stop que bloquea el cierre en el caso flagrante, y los comandos /decision y /reunion para registrarlas bien.",
+  "ficheros": [
+    "decisiones_pendientes.py",
+    "stop_hook_filter.py",
+    "comandos/decision.md",
+    "comandos/reunion.md"
+  ],
+  "destino": ".glados",
+  "prueba_de_vida": "python .glados/decisiones_pendientes.py --check",
+  "requiere": []
+}

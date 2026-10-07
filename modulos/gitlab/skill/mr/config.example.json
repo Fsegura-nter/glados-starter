@@ -1,0 +1,31 @@
+{
+  "defaults": {
+    "language": "es",
+    "rules": [
+      "noDebugPrints",
+      "noTodos"
+    ],
+    "tone": "Formal peer-to-peer, one developer to another. No emojis. Cite the concrete rule, never appeal to team conventions in the abstract. Affirmative, no questions."
+  },
+  "projects": {
+    "group/repo": {
+      "token": "glpat-xxxxxxxxxxxxxxxxxxxx"
+    },
+    "group/subgroup/other-repo": {
+      "token": "glpat-xxxxxxxxxxxxxxxxxxxx",
+      "stack": "spring-boot",
+      "language": "en",
+      "rules": [
+        "noDebugPrints",
+        "noTodos",
+        "noComments"
+      ]
+    },
+    "group/repo-con-almacen-externo": {
+      "tokenFrom": {
+        "file": "%LOCALAPPDATA%\\almacen.json",
+        "path": "gitlab.tokens.group/repo-con-almacen-externo.value"
+      }
+    }
+  }
+}

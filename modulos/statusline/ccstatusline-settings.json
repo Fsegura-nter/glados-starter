@@ -1,0 +1,90 @@
+{
+  "version": 4,
+  "lines": [
+    [
+      {
+        "id": "1",
+        "type": "git-root-dir",
+        "color": "yellow",
+        "rawValue": true
+      },
+      {
+        "id": "3",
+        "type": "git-branch",
+        "color": "cyan",
+        "rawValue": true
+      },
+      {
+        "id": "5",
+        "type": "context-bar",
+        "color": "brightBlack",
+        "rawValue": true,
+        "metadata": {
+          "display": "progress-short"
+        }
+      },
+      {
+        "id": "6",
+        "type": "flex-separator"
+      },
+      {
+        "id": "7",
+        "type": "model",
+        "color": "magenta",
+        "rawValue": true
+      },
+      {
+        "id": "9",
+        "type": "thinking-effort",
+        "color": "brightBlack",
+        "rawValue": true
+      },
+      {
+        "id": "11",
+        "type": "session-cost",
+        "color": "yellow",
+        "rawValue": true
+      },
+      {
+        "id": "13",
+        "type": "session-clock",
+        "color": "brightBlack",
+        "rawValue": true
+      }
+    ],
+    [
+      {
+        "id": "20",
+        "type": "custom-command",
+        "commandPath": "bash \"~/.claude/limits_eye.sh\"",
+        "timeout": 3000,
+        "preserveColors": true
+      }
+    ],
+    []
+  ],
+  "flexMode": "full",
+  "compactThreshold": 60,
+  "colorLevel": 3,
+  "defaultPaddingSide": "both",
+  "inheritSeparatorColors": false,
+  "globalBold": false,
+  "gitCacheTtlSeconds": 5,
+  "terminalWidthCacheTtlSeconds": 5,
+  "customCommandCacheTtlSeconds": 0,
+  "minimalistMode": false,
+  "powerline": {
+    "enabled": true,
+    "separators": [
+      ""
+    ],
+    "separatorInvertBackground": [
+      false
+    ],
+    "startCaps": [],
+    "endCaps": [],
+    "autoAlign": false,
+    "continueThemeAcrossLines": false,
+    "theme": "tokyonight"
+  }
+}

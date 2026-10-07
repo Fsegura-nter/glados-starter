@@ -1,0 +1,19 @@
+{
+  "nombre": "gitlab",
+  "descripcion": "Credential helper de git y lanzador del MCP de GitLab en solo lectura, inventario de versiones de los repos de un workspace, sincronización de notas de repo, y la skill /mr de revisión de Merge Requests. El host de GitLab viene siempre de .glados/settings.json (gitlab_host), nunca de un literal.",
+  "ficheros": [
+    "git_credential.py",
+    "mcp_gitlab.py",
+    "sync_projects.py",
+    "inventario_repos.py",
+    "skill/mr/SKILL.md",
+    "skill/mr/check-anchors.ps1",
+    "skill/mr/check-diff.ps1",
+    "skill/mr/detect-stack.ps1",
+    "skill/mr/get-token.ps1",
+    "skill/mr/config.example.json"
+  ],
+  "destino": ".glados",
+  "prueba_de_vida": "python .glados/mcp_gitlab.py",
+  "requiere": ["gitlab.token", "bitbucket.email", "bitbucket.token", "bitbucket.workspace"]
+}

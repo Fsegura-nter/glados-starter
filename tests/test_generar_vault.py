@@ -107,19 +107,24 @@ def test_deshace_un_fallo_de_escritura(raiz, tmp_path, monkeypatch):
     assert list(tmp_path.iterdir()) == []
 
 def test_estado_modulos_se_fusiona_al_anadir_un_modulo(raiz, tmp_path):
+    # "google" y "decisiones" son módulos reales de modulos/ (Tarea 12): desde que esa
+    # carpeta existe, _validar_plan comprueba los nombres contra ella, así que el test ya
+    # no puede usar un módulo inventado como "otro". El servicio de "google" es "gmail"
+    # (de modulos/google/gmail_api.py, vía _servicios_de_modulo); "decisiones" no declara
+    # ningún `*_api.py`, así que su único servicio es su propio nombre.
     g = cargar(raiz)
     g.generar(plan_minimo(modulos=["google"]), tmp_path)
     ruta_estado = tmp_path / ".glados" / "estado_modulos.json"
     estado = json.loads(ruta_estado.read_text(encoding="utf-8"))
-    assert estado["google"]["google"] == "sin_probar"
+    assert estado["google"]["gmail"] == "sin_probar"
 
-    estado["google"]["google"] = "ok"
+    estado["google"]["gmail"] = "ok"
     ruta_estado.write_text(json.dumps(estado), encoding="utf-8")
 
-    g.generar(plan_minimo(modulos=["google", "otro"]), tmp_path)
+    g.generar(plan_minimo(modulos=["google", "decisiones"]), tmp_path)
     estado_final = json.loads(ruta_estado.read_text(encoding="utf-8"))
-    assert estado_final["google"]["google"] == "ok"
-    assert estado_final["otro"]["otro"] == "sin_probar"
+    assert estado_final["google"]["gmail"] == "ok"
+    assert estado_final["decisiones"]["decisiones"] == "sin_probar"
 
 def test_pendientes_manuales_con_salto_de_linea_mantiene_ambas_lineas(raiz, tmp_path):
     g = cargar(raiz)

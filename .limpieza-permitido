@@ -6,3 +6,4 @@
 
 herramientas/limpieza.py
 tests/test_limpieza.py
+tests/test_modulos.py
