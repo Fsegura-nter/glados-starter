@@ -1,0 +1,1484 @@
+{
+ "mensajes": [
+  {
+   "de": "noreply@plataforma0.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Resumen semanal automatico"
+  },
+  {
+   "de": "noreply@plataforma1.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Resumen semanal automatico"
+  },
+  {
+   "de": "noreply@plataforma2.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Resumen semanal automatico"
+  },
+  {
+   "de": "noreply@plataforma3.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Resumen semanal automatico"
+  },
+  {
+   "de": "noreply@plataforma0.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Resumen semanal automatico"
+  },
+  {
+   "de": "noreply@plataforma1.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Resumen semanal automatico"
+  },
+  {
+   "de": "noreply@plataforma2.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Resumen semanal automatico"
+  },
+  {
+   "de": "noreply@plataforma3.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Resumen semanal automatico"
+  },
+  {
+   "de": "noreply@plataforma0.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Resumen semanal automatico"
+  },
+  {
+   "de": "noreply@plataforma1.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Resumen semanal automatico"
+  },
+  {
+   "de": "noreply@plataforma2.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Resumen semanal automatico"
+  },
+  {
+   "de": "noreply@plataforma3.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Resumen semanal automatico"
+  },
+  {
+   "de": "noreply@plataforma0.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Resumen semanal automatico"
+  },
+  {
+   "de": "noreply@plataforma1.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Resumen semanal automatico"
+  },
+  {
+   "de": "noreply@plataforma2.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Resumen semanal automatico"
+  },
+  {
+   "de": "noreply@plataforma3.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Resumen semanal automatico"
+  },
+  {
+   "de": "noreply@plataforma0.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Resumen semanal automatico"
+  },
+  {
+   "de": "noreply@plataforma1.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Resumen semanal automatico"
+  },
+  {
+   "de": "noreply@plataforma2.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Resumen semanal automatico"
+  },
+  {
+   "de": "noreply@plataforma3.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Resumen semanal automatico"
+  },
+  {
+   "de": "boletin0@marca.invalido",
+   "cabeceras": {
+    "List-Unsubscribe": "<https://marca.invalido/baja>"
+   },
+   "partes": [
+    "text/html"
+   ],
+   "asunto": "Novedades del mes"
+  },
+  {
+   "de": "boletin1@marca.invalido",
+   "cabeceras": {
+    "List-Unsubscribe": "<https://marca.invalido/baja>"
+   },
+   "partes": [
+    "text/html"
+   ],
+   "asunto": "Novedades del mes"
+  },
+  {
+   "de": "boletin2@marca.invalido",
+   "cabeceras": {
+    "List-Unsubscribe": "<https://marca.invalido/baja>"
+   },
+   "partes": [
+    "text/html"
+   ],
+   "asunto": "Novedades del mes"
+  },
+  {
+   "de": "boletin3@marca.invalido",
+   "cabeceras": {
+    "List-Unsubscribe": "<https://marca.invalido/baja>"
+   },
+   "partes": [
+    "text/html"
+   ],
+   "asunto": "Novedades del mes"
+  },
+  {
+   "de": "boletin4@marca.invalido",
+   "cabeceras": {
+    "List-Unsubscribe": "<https://marca.invalido/baja>"
+   },
+   "partes": [
+    "text/html"
+   ],
+   "asunto": "Novedades del mes"
+  },
+  {
+   "de": "boletin5@marca.invalido",
+   "cabeceras": {
+    "List-Unsubscribe": "<https://marca.invalido/baja>"
+   },
+   "partes": [
+    "text/html"
+   ],
+   "asunto": "Novedades del mes"
+  },
+  {
+   "de": "boletin6@marca.invalido",
+   "cabeceras": {
+    "List-Unsubscribe": "<https://marca.invalido/baja>"
+   },
+   "partes": [
+    "text/html"
+   ],
+   "asunto": "Novedades del mes"
+  },
+  {
+   "de": "boletin7@marca.invalido",
+   "cabeceras": {
+    "List-Unsubscribe": "<https://marca.invalido/baja>"
+   },
+   "partes": [
+    "text/html"
+   ],
+   "asunto": "Novedades del mes"
+  },
+  {
+   "de": "boletin8@marca.invalido",
+   "cabeceras": {
+    "List-Unsubscribe": "<https://marca.invalido/baja>"
+   },
+   "partes": [
+    "text/html"
+   ],
+   "asunto": "Novedades del mes"
+  },
+  {
+   "de": "boletin9@marca.invalido",
+   "cabeceras": {
+    "List-Unsubscribe": "<https://marca.invalido/baja>"
+   },
+   "partes": [
+    "text/html"
+   ],
+   "asunto": "Novedades del mes"
+  },
+  {
+   "de": "boletin10@marca.invalido",
+   "cabeceras": {
+    "List-Unsubscribe": "<https://marca.invalido/baja>"
+   },
+   "partes": [
+    "text/html"
+   ],
+   "asunto": "Novedades del mes"
+  },
+  {
+   "de": "boletin11@marca.invalido",
+   "cabeceras": {
+    "List-Unsubscribe": "<https://marca.invalido/baja>"
+   },
+   "partes": [
+    "text/html"
+   ],
+   "asunto": "Novedades del mes"
+  },
+  {
+   "de": "boletin12@marca.invalido",
+   "cabeceras": {
+    "List-Unsubscribe": "<https://marca.invalido/baja>"
+   },
+   "partes": [
+    "text/html"
+   ],
+   "asunto": "Novedades del mes"
+  },
+  {
+   "de": "boletin13@marca.invalido",
+   "cabeceras": {
+    "List-Unsubscribe": "<https://marca.invalido/baja>"
+   },
+   "partes": [
+    "text/html"
+   ],
+   "asunto": "Novedades del mes"
+  },
+  {
+   "de": "boletin14@marca.invalido",
+   "cabeceras": {
+    "List-Unsubscribe": "<https://marca.invalido/baja>"
+   },
+   "partes": [
+    "text/html"
+   ],
+   "asunto": "Novedades del mes"
+  },
+  {
+   "de": "boletin15@marca.invalido",
+   "cabeceras": {
+    "List-Unsubscribe": "<https://marca.invalido/baja>"
+   },
+   "partes": [
+    "text/html"
+   ],
+   "asunto": "Novedades del mes"
+  },
+  {
+   "de": "boletin16@marca.invalido",
+   "cabeceras": {
+    "List-Unsubscribe": "<https://marca.invalido/baja>"
+   },
+   "partes": [
+    "text/html"
+   ],
+   "asunto": "Novedades del mes"
+  },
+  {
+   "de": "boletin17@marca.invalido",
+   "cabeceras": {
+    "List-Unsubscribe": "<https://marca.invalido/baja>"
+   },
+   "partes": [
+    "text/html"
+   ],
+   "asunto": "Novedades del mes"
+  },
+  {
+   "de": "boletin18@marca.invalido",
+   "cabeceras": {
+    "List-Unsubscribe": "<https://marca.invalido/baja>"
+   },
+   "partes": [
+    "text/html"
+   ],
+   "asunto": "Novedades del mes"
+  },
+  {
+   "de": "boletin19@marca.invalido",
+   "cabeceras": {
+    "List-Unsubscribe": "<https://marca.invalido/baja>"
+   },
+   "partes": [
+    "text/html"
+   ],
+   "asunto": "Novedades del mes"
+  },
+  {
+   "de": "avisos0@gestor.invalido",
+   "cabeceras": {
+    "Precedence": "bulk"
+   },
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Su solicitud ha sido registrada"
+  },
+  {
+   "de": "avisos1@gestor.invalido",
+   "cabeceras": {
+    "Precedence": "bulk"
+   },
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Su solicitud ha sido registrada"
+  },
+  {
+   "de": "avisos2@gestor.invalido",
+   "cabeceras": {
+    "Precedence": "bulk"
+   },
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Su solicitud ha sido registrada"
+  },
+  {
+   "de": "avisos3@gestor.invalido",
+   "cabeceras": {
+    "Precedence": "bulk"
+   },
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Su solicitud ha sido registrada"
+  },
+  {
+   "de": "avisos4@gestor.invalido",
+   "cabeceras": {
+    "Precedence": "bulk"
+   },
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Su solicitud ha sido registrada"
+  },
+  {
+   "de": "avisos5@gestor.invalido",
+   "cabeceras": {
+    "Precedence": "bulk"
+   },
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Su solicitud ha sido registrada"
+  },
+  {
+   "de": "avisos6@gestor.invalido",
+   "cabeceras": {
+    "Precedence": "bulk"
+   },
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Su solicitud ha sido registrada"
+  },
+  {
+   "de": "avisos7@gestor.invalido",
+   "cabeceras": {
+    "Precedence": "bulk"
+   },
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Su solicitud ha sido registrada"
+  },
+  {
+   "de": "avisos8@gestor.invalido",
+   "cabeceras": {
+    "Precedence": "bulk"
+   },
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Su solicitud ha sido registrada"
+  },
+  {
+   "de": "avisos9@gestor.invalido",
+   "cabeceras": {
+    "Precedence": "bulk"
+   },
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Su solicitud ha sido registrada"
+  },
+  {
+   "de": "avisos10@gestor.invalido",
+   "cabeceras": {
+    "Precedence": "bulk"
+   },
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Su solicitud ha sido registrada"
+  },
+  {
+   "de": "avisos11@gestor.invalido",
+   "cabeceras": {
+    "Precedence": "bulk"
+   },
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Su solicitud ha sido registrada"
+  },
+  {
+   "de": "avisos12@gestor.invalido",
+   "cabeceras": {
+    "Precedence": "bulk"
+   },
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Su solicitud ha sido registrada"
+  },
+  {
+   "de": "avisos13@gestor.invalido",
+   "cabeceras": {
+    "Precedence": "bulk"
+   },
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Su solicitud ha sido registrada"
+  },
+  {
+   "de": "avisos14@gestor.invalido",
+   "cabeceras": {
+    "Precedence": "bulk"
+   },
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Su solicitud ha sido registrada"
+  },
+  {
+   "de": "notifications@proyecto0.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "[CI] build #0 finalizada"
+  },
+  {
+   "de": "notifications@proyecto1.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "[CI] build #1 finalizada"
+  },
+  {
+   "de": "notifications@proyecto2.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "[CI] build #2 finalizada"
+  },
+  {
+   "de": "notifications@proyecto3.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "[CI] build #3 finalizada"
+  },
+  {
+   "de": "notifications@proyecto4.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "[CI] build #4 finalizada"
+  },
+  {
+   "de": "notifications@proyecto5.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "[CI] build #5 finalizada"
+  },
+  {
+   "de": "notifications@proyecto6.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "[CI] build #6 finalizada"
+  },
+  {
+   "de": "notifications@proyecto7.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "[CI] build #7 finalizada"
+  },
+  {
+   "de": "notifications@proyecto8.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "[CI] build #8 finalizada"
+  },
+  {
+   "de": "notifications@proyecto9.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "[CI] build #9 finalizada"
+  },
+  {
+   "de": "notifications@proyecto10.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "[CI] build #10 finalizada"
+  },
+  {
+   "de": "notifications@proyecto11.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "[CI] build #11 finalizada"
+  },
+  {
+   "de": "notifications@proyecto12.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "[CI] build #12 finalizada"
+  },
+  {
+   "de": "notifications@proyecto13.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "[CI] build #13 finalizada"
+  },
+  {
+   "de": "notifications@proyecto14.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "[CI] build #14 finalizada"
+  },
+  {
+   "de": "carla.nieto@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Plan de pruebas release 4.2"
+  },
+  {
+   "de": "diego.pons@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Regresion del carrito"
+  },
+  {
+   "de": "sofia.marin@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Incidencia 1182 en checkout"
+  },
+  {
+   "de": "carla.nieto@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Criterios de aceptacion del buscador"
+  },
+  {
+   "de": "diego.pons@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Plan de pruebas release 4.2"
+  },
+  {
+   "de": "sofia.marin@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Regresion del carrito"
+  },
+  {
+   "de": "carla.nieto@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Incidencia 1182 en checkout"
+  },
+  {
+   "de": "diego.pons@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Criterios de aceptacion del buscador"
+  },
+  {
+   "de": "sofia.marin@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Plan de pruebas release 4.2"
+  },
+  {
+   "de": "carla.nieto@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Regresion del carrito"
+  },
+  {
+   "de": "diego.pons@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Incidencia 1182 en checkout"
+  },
+  {
+   "de": "sofia.marin@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Criterios de aceptacion del buscador"
+  },
+  {
+   "de": "carla.nieto@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Plan de pruebas release 4.2"
+  },
+  {
+   "de": "diego.pons@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Regresion del carrito"
+  },
+  {
+   "de": "sofia.marin@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Incidencia 1182 en checkout"
+  },
+  {
+   "de": "carla.nieto@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Criterios de aceptacion del buscador"
+  },
+  {
+   "de": "diego.pons@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Plan de pruebas release 4.2"
+  },
+  {
+   "de": "sofia.marin@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Regresion del carrito"
+  },
+  {
+   "de": "carla.nieto@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Incidencia 1182 en checkout"
+  },
+  {
+   "de": "diego.pons@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Criterios de aceptacion del buscador"
+  },
+  {
+   "de": "sofia.marin@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Plan de pruebas release 4.2"
+  },
+  {
+   "de": "carla.nieto@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Regresion del carrito"
+  },
+  {
+   "de": "diego.pons@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Incidencia 1182 en checkout"
+  },
+  {
+   "de": "sofia.marin@lumenretail.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Criterios de aceptacion del buscador"
+  },
+  {
+   "de": "hugo.cerda@vegaseguros.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Juego de datos para polizas"
+  },
+  {
+   "de": "irene.lago@vegaseguros.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Validacion del simulador"
+  },
+  {
+   "de": "hugo.cerda@vegaseguros.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Incidencia 77 en el alta de siniestros"
+  },
+  {
+   "de": "irene.lago@vegaseguros.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Juego de datos para polizas"
+  },
+  {
+   "de": "hugo.cerda@vegaseguros.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Validacion del simulador"
+  },
+  {
+   "de": "irene.lago@vegaseguros.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Incidencia 77 en el alta de siniestros"
+  },
+  {
+   "de": "hugo.cerda@vegaseguros.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Juego de datos para polizas"
+  },
+  {
+   "de": "irene.lago@vegaseguros.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Validacion del simulador"
+  },
+  {
+   "de": "hugo.cerda@vegaseguros.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Incidencia 77 en el alta de siniestros"
+  },
+  {
+   "de": "irene.lago@vegaseguros.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Juego de datos para polizas"
+  },
+  {
+   "de": "hugo.cerda@vegaseguros.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Validacion del simulador"
+  },
+  {
+   "de": "irene.lago@vegaseguros.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Incidencia 77 en el alta de siniestros"
+  },
+  {
+   "de": "hugo.cerda@vegaseguros.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Juego de datos para polizas"
+  },
+  {
+   "de": "irene.lago@vegaseguros.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Validacion del simulador"
+  },
+  {
+   "de": "pablo.sainz@consultora.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Cobertura de la suite y tiempos"
+  },
+  {
+   "de": "pablo.sainz@consultora.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Cobertura de la suite y tiempos"
+  },
+  {
+   "de": "pablo.sainz@consultora.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Cobertura de la suite y tiempos"
+  },
+  {
+   "de": "pablo.sainz@consultora.invalido",
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Cobertura de la suite y tiempos"
+  },
+  {
+   "de": "alex.rivas@consultora.invalido",
+   "enviado": true,
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Plan de pruebas release 4.2",
+   "cuerpo": "Buenas Carla, he dejado el plan de pruebas de la 4.2 en la carpeta compartida. Faltan los criterios del buscador, si los tienes hoy lo cierro. Gracias."
+  },
+  {
+   "de": "alex.rivas@consultora.invalido",
+   "enviado": true,
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Regresion del carrito",
+   "cuerpo": "Hola Hugo, el juego de datos de polizas ya esta cargado en el entorno de pruebas. La 77 sigue reproduciendose, te paso el video en cuanto lo recorte."
+  },
+  {
+   "de": "alex.rivas@consultora.invalido",
+   "enviado": true,
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Incidencia 1182 en checkout",
+   "cuerpo": "Buenas Diego, la regresion del carrito esta en verde salvo dos casos de cupones. Los tengo documentados, si puedes los vemos el jueves."
+  },
+  {
+   "de": "alex.rivas@consultora.invalido",
+   "enviado": true,
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Criterios de aceptacion del buscador",
+   "cuerpo": "Hola Sofia, confirmo que la incidencia 1182 ya no se reproduce en checkout. La cierro y la dejo anotada en el plan. Avisame tu si la ves otra vez."
+  },
+  {
+   "de": "alex.rivas@consultora.invalido",
+   "enviado": true,
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Plan de pruebas release 4.2",
+   "cuerpo": "Buenas Carla, he pasado la suite completa contra el entorno nuevo. Dos fallos, los dos de datos. Si quieres te los paso priorizados."
+  },
+  {
+   "de": "alex.rivas@consultora.invalido",
+   "enviado": true,
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Regresion del carrito",
+   "cuerpo": "Hola Irene, el simulador falla al validar polizas sin beneficiario. Tienes el detalle en la evidencia que he subido. Lo dejo abierto hasta que me digas."
+  },
+  {
+   "de": "alex.rivas@consultora.invalido",
+   "enviado": true,
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Incidencia 1182 en checkout",
+   "cuerpo": "Buenas Pablo, la cobertura ha subido al 71 por ciento esta semana. Te dejo el informe en la carpeta. Si puedes revisarlo antes del lunes, mejor."
+  },
+  {
+   "de": "alex.rivas@consultora.invalido",
+   "enviado": true,
+   "cabeceras": {},
+   "partes": [
+    "text/plain"
+   ],
+   "asunto": "Criterios de aceptacion del buscador",
+   "cuerpo": "Hola Diego, he actualizado los criterios de aceptacion del buscador con lo que acordamos. Dime tu si falta algo y lo ajusto."
+  }
+ ],
+ "eventos": [
+  {
+   "titulo": "Daily de QA",
+   "inicio": "2026-09-01T09:15",
+   "minutos": 15,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Daily de QA",
+   "inicio": "2026-09-02T09:15",
+   "minutos": 15,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Daily de QA",
+   "inicio": "2026-09-03T09:15",
+   "minutos": 15,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Daily de QA",
+   "inicio": "2026-09-04T09:15",
+   "minutos": 15,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Daily de QA",
+   "inicio": "2026-09-07T09:15",
+   "minutos": 15,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Daily de QA",
+   "inicio": "2026-09-08T09:15",
+   "minutos": 15,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Daily de QA",
+   "inicio": "2026-09-09T09:15",
+   "minutos": 15,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Daily de QA",
+   "inicio": "2026-09-10T09:15",
+   "minutos": 15,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Daily de QA",
+   "inicio": "2026-09-11T09:15",
+   "minutos": 15,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Daily de QA",
+   "inicio": "2026-09-14T09:15",
+   "minutos": 15,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Daily de QA",
+   "inicio": "2026-09-15T09:15",
+   "minutos": 15,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Daily de QA",
+   "inicio": "2026-09-16T09:15",
+   "minutos": 15,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Daily de QA",
+   "inicio": "2026-09-17T09:15",
+   "minutos": 15,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Daily de QA",
+   "inicio": "2026-09-18T09:15",
+   "minutos": 15,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Daily de QA",
+   "inicio": "2026-09-21T09:15",
+   "minutos": 15,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Daily de QA",
+   "inicio": "2026-09-22T09:15",
+   "minutos": 15,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Daily de QA",
+   "inicio": "2026-09-23T09:15",
+   "minutos": 15,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Daily de QA",
+   "inicio": "2026-09-24T09:15",
+   "minutos": 15,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Daily de QA",
+   "inicio": "2026-09-25T09:15",
+   "minutos": 15,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Daily de QA",
+   "inicio": "2026-09-28T09:15",
+   "minutos": 15,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Revision de pruebas Lumen",
+   "inicio": "2026-07-02T16:00",
+   "minutos": 60,
+   "asistentes": [
+    "carla.nieto@lumenretail.invalido",
+    "diego.pons@lumenretail.invalido",
+    "sofia.marin@lumenretail.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Revision de pruebas Lumen",
+   "inicio": "2026-07-09T16:00",
+   "minutos": 60,
+   "asistentes": [
+    "carla.nieto@lumenretail.invalido",
+    "diego.pons@lumenretail.invalido",
+    "sofia.marin@lumenretail.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Revision de pruebas Lumen",
+   "inicio": "2026-07-16T16:00",
+   "minutos": 60,
+   "asistentes": [
+    "carla.nieto@lumenretail.invalido",
+    "diego.pons@lumenretail.invalido",
+    "sofia.marin@lumenretail.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Revision de pruebas Lumen",
+   "inicio": "2026-07-23T16:00",
+   "minutos": 60,
+   "asistentes": [
+    "carla.nieto@lumenretail.invalido",
+    "diego.pons@lumenretail.invalido",
+    "sofia.marin@lumenretail.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Revision de pruebas Lumen",
+   "inicio": "2026-07-30T16:00",
+   "minutos": 60,
+   "asistentes": [
+    "carla.nieto@lumenretail.invalido",
+    "diego.pons@lumenretail.invalido",
+    "sofia.marin@lumenretail.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Revision de pruebas Lumen",
+   "inicio": "2026-08-06T16:00",
+   "minutos": 60,
+   "asistentes": [
+    "carla.nieto@lumenretail.invalido",
+    "diego.pons@lumenretail.invalido",
+    "sofia.marin@lumenretail.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Revision de pruebas Lumen",
+   "inicio": "2026-08-13T16:00",
+   "minutos": 60,
+   "asistentes": [
+    "carla.nieto@lumenretail.invalido",
+    "diego.pons@lumenretail.invalido",
+    "sofia.marin@lumenretail.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Revision de pruebas Lumen",
+   "inicio": "2026-08-20T16:00",
+   "minutos": 60,
+   "asistentes": [
+    "carla.nieto@lumenretail.invalido",
+    "diego.pons@lumenretail.invalido",
+    "sofia.marin@lumenretail.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Revision de pruebas Lumen",
+   "inicio": "2026-08-27T16:00",
+   "minutos": 60,
+   "asistentes": [
+    "carla.nieto@lumenretail.invalido",
+    "diego.pons@lumenretail.invalido",
+    "sofia.marin@lumenretail.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Revision de pruebas Lumen",
+   "inicio": "2026-09-03T16:00",
+   "minutos": 60,
+   "asistentes": [
+    "carla.nieto@lumenretail.invalido",
+    "diego.pons@lumenretail.invalido",
+    "sofia.marin@lumenretail.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Seguimiento Vega",
+   "inicio": "2026-07-07T11:00",
+   "minutos": 45,
+   "asistentes": [
+    "hugo.cerda@vegaseguros.invalido",
+    "irene.lago@vegaseguros.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Seguimiento Vega",
+   "inicio": "2026-07-21T11:00",
+   "minutos": 45,
+   "asistentes": [
+    "hugo.cerda@vegaseguros.invalido",
+    "irene.lago@vegaseguros.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Seguimiento Vega",
+   "inicio": "2026-08-04T11:00",
+   "minutos": 45,
+   "asistentes": [
+    "hugo.cerda@vegaseguros.invalido",
+    "irene.lago@vegaseguros.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Seguimiento Vega",
+   "inicio": "2026-08-18T11:00",
+   "minutos": 45,
+   "asistentes": [
+    "hugo.cerda@vegaseguros.invalido",
+    "irene.lago@vegaseguros.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Seguimiento Vega",
+   "inicio": "2026-09-01T11:00",
+   "minutos": 45,
+   "asistentes": [
+    "hugo.cerda@vegaseguros.invalido",
+    "irene.lago@vegaseguros.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Seguimiento Vega",
+   "inicio": "2026-09-15T11:00",
+   "minutos": 45,
+   "asistentes": [
+    "hugo.cerda@vegaseguros.invalido",
+    "irene.lago@vegaseguros.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Kickoff release 4.2",
+   "inicio": "2026-07-15T12:00",
+   "minutos": 60,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Retro de trimestre",
+   "inicio": "2026-09-29T12:00",
+   "minutos": 60,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Formacion de accesibilidad",
+   "inicio": "2026-08-20T12:00",
+   "minutos": 60,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  },
+  {
+   "titulo": "Entrevista tecnica QA",
+   "inicio": "2026-09-10T12:00",
+   "minutos": 60,
+   "asistentes": [
+    "pablo.sainz@consultora.invalido",
+    "alex.rivas@consultora.invalido"
+   ]
+  }
+ ],
+ "drive": [
+  {
+   "carpeta": "Planes de prueba Lumen",
+   "propia": true,
+   "compartido_con": [
+    "carla.nieto@lumenretail.invalido",
+    "diego.pons@lumenretail.invalido",
+    "sofia.marin@lumenretail.invalido"
+   ]
+  },
+  {
+   "carpeta": "Juegos de datos Vega",
+   "propia": true,
+   "compartido_con": [
+    "hugo.cerda@vegaseguros.invalido",
+    "irene.lago@vegaseguros.invalido"
+   ]
+  },
+  {
+   "carpeta": "Evidencias de regresion",
+   "propia": true,
+   "compartido_con": []
+  },
+  {
+   "carpeta": "Plantillas de QA",
+   "propia": true,
+   "compartido_con": [
+    "pablo.sainz@consultora.invalido"
+   ]
+  },
+  {
+   "carpeta": "Formacion interna",
+   "propia": false,
+   "compartido_con": [
+    "pablo.sainz@consultora.invalido"
+   ]
+  },
+  {
+   "carpeta": "Informes de cobertura",
+   "propia": true,
+   "compartido_con": [
+    "pablo.sainz@consultora.invalido"
+   ]
+  }
+ ],
+ "repos": []
+}

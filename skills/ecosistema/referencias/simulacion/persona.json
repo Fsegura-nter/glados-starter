@@ -1,0 +1,24 @@
+{
+  "_que_es": "Respuestas de entrevista de una persona ficticia, para el modo --simulado. No hay nadie detras de estos datos: dominios .invalido, direcciones inventadas. Es la fase 1 enlatada, para poder recorrer las cinco fases sin gastar un compañero de verdad.",
+  "mecanicas": {
+    "nombre_vault": "boveda-qa",
+    "ruta": "Escritorio\boveda-qa",
+    "statusline": true
+  },
+  "entrevista": {
+    "rol": "QA en una consultora. Pruebas manuales y algo de automatizacion.",
+    "equipo": "Equipo pequeño de cuatro personas, un solo tech lead.",
+    "interlocutores_semanales": "Tres personas de Lumen Retail y dos de Vega Seguros. Dentro de casa, el tech lead.",
+    "trabajo_repetido": "Planes de prueba por release, juegos de datos y seguimiento de incidencias. Siempre la misma forma, siempre a mano.",
+    "clientes_o_repos": "Dos clientes. Ningun repositorio propio: el codigo lo llevan los equipos de desarrollo.",
+    "que_haga_sin_pedirlo": "Que recuerde en que incidencia iba cada cliente y que no me deje cerrar el dia con una decision sin anotar.",
+    "gitlab": "No usa GitLab.",
+    "idioma": "es"
+  },
+  "esperado": {
+    "areas": ["lumen", "vega", "interno"],
+    "sin_carpeta_de_repos": "No tiene repos: el arbol no debe traer _repos.",
+    "modulos": ["google", "decisiones", "paneles"],
+    "modulo_descartado": "gitlab, porque la entrevista dice que no lo usa"
+  }
+}

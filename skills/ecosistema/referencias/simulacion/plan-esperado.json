@@ -1,0 +1,76 @@
+{
+  "vault": { "ruta": "", "nombre": "boveda-qa", "idioma": "es" },
+  "asistente": {
+    "nombre": "Nocion",
+    "arquetipo": "copiloto-tecnico"
+  },
+  "areas": ["lumen", "vega", "interno"],
+  "carpetas": [
+    { "ruta": "00_CORE", "descripcion": "Perfil, principios y tareas. Siempre presente." },
+    { "ruta": "01_CLIENTES", "descripcion": "Dos clientes, deducidos de siete interlocutores reales en dos dominios externos recurrentes." },
+    { "ruta": "02_PROYECTOS", "descripcion": "Una nota por release o linea de trabajo. Los asuntos de correo se repiten por release." },
+    { "ruta": "03_REUNIONES", "descripcion": "Tres series recurrentes en el calendario: una diaria, una semanal y una quincenal." },
+    { "ruta": "04_PRUEBAS", "descripcion": "Planes de prueba y evidencias. Sale de las carpetas de Drive con actividad propia, que son todas de QA." },
+    { "ruta": "05_FUENTES", "descripcion": "Documentacion original de cliente, solo lectura. La indexa la busqueda." },
+    { "ruta": "07_MEMORIA", "descripcion": "Memorias destiladas de sesion. Historia, no estado." }
+  ],
+  "modulos": ["google", "decisiones", "paneles"],
+  "notas": [
+    {
+      "ruta": "01_CLIENTES/Lumen Retail.md",
+      "frontmatter": {
+        "estado": "activo",
+        "area": "lumen",
+        "aliases": ["Lumen"],
+        "tags": ["cliente"],
+        "fecha": "2026-10-13"
+      },
+      "cuerpo": "## Descripcion\nCliente de retail. El trabajo entra por planes de prueba atados a cada release.\n\n## Interlocutores\nTres personas, la mas frecuente con veinticuatro mensajes en el ultimo año.\n\n## Cadencia\nRevision de pruebas semanal, los jueves, una hora.\n\n## Acuerdos y decisiones\n"
+    },
+    {
+      "ruta": "01_CLIENTES/Vega Seguros.md",
+      "frontmatter": {
+        "estado": "activo",
+        "area": "vega",
+        "aliases": ["Vega"],
+        "tags": ["cliente"],
+        "fecha": "2026-10-13"
+      },
+      "cuerpo": "## Descripcion\nCliente de seguros. El trabajo entra por juegos de datos y validacion del simulador.\n\n## Interlocutores\nDos personas.\n\n## Cadencia\nSeguimiento quincenal, los martes, cuarenta y cinco minutos.\n\n## Acuerdos y decisiones\n"
+    },
+    {
+      "ruta": "02_PROYECTOS/Release 4.2 Lumen.md",
+      "frontmatter": {
+        "estado": "activo",
+        "area": "lumen",
+        "cliente": "[[Lumen Retail]]",
+        "tags": ["proyecto"],
+        "fecha": "2026-10-13"
+      },
+      "cuerpo": "## Descripcion\nPlan de pruebas de la release 4.2. Es el asunto que mas se repite en el correo del ultimo año.\n\n## Decisiones\n\n## TODOs\n- [ ] Criterios de aceptacion del buscador\n"
+    },
+    {
+      "ruta": "02_PROYECTOS/Simulador de polizas Vega.md",
+      "frontmatter": {
+        "estado": "activo",
+        "area": "vega",
+        "cliente": "[[Vega Seguros]]",
+        "tags": ["proyecto"],
+        "fecha": "2026-10-13"
+      },
+      "cuerpo": "## Descripcion\nValidacion del simulador y juegos de datos de polizas.\n\n## Decisiones\n\n## TODOs\n- [ ] Polizas sin beneficiario: incidencia 77 abierta\n"
+    },
+    {
+      "ruta": "00_CORE/cobertura.md",
+      "frontmatter": {
+        "area": "interno",
+        "tags": ["interno"],
+        "fecha": "2026-10-13"
+      },
+      "cuerpo": "## Descripcion\nCobertura de la suite y tiempos de ejecucion. Tema recurrente con el tech lead.\n"
+    }
+  ],
+  "pendientes_manuales": [
+    "Esta boveda la genero una pasada SIMULADA: ningun modulo ha demostrado una prueba de vida contra una cuenta real, y por eso todos sus servicios estan en sin_probar. Antes de confiar en que puede leer el correo, correr la prueba de vida de cada uno."
+  ]
+}
