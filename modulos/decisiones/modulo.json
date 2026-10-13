@@ -4,10 +4,13 @@
   "ficheros": [
     "decisiones_pendientes.py",
     "stop_hook_filter.py",
-    "comandos/decision.md",
-    "comandos/reunion.md"
+    "commands/decision.md",
+    "commands/reunion.md"
   ],
   "destino": ".glados",
+  "destinos": {
+    "commands": ".claude"
+  },
   "prueba_de_vida": "python .glados/decisiones_pendientes.py --check",
   "requiere": []
 }

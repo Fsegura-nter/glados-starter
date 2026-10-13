@@ -6,14 +6,25 @@
     "mcp_gitlab.py",
     "sync_projects.py",
     "inventario_repos.py",
-    "skill/mr/SKILL.md",
-    "skill/mr/check-anchors.ps1",
-    "skill/mr/check-diff.ps1",
-    "skill/mr/detect-stack.ps1",
-    "skill/mr/get-token.ps1",
-    "skill/mr/config.example.json"
+    "skills/mr/SKILL.md",
+    "skills/mr/check-anchors.ps1",
+    "skills/mr/check-diff.ps1",
+    "skills/mr/detect-stack.ps1",
+    "skills/mr/get-token.ps1",
+    "skills/mr/config.example.json",
+    "agents/mr-back-reviewer.md",
+    "agents/mr-front-reviewer.md"
   ],
   "destino": ".glados",
+  "destinos": {
+    "skills": ".claude",
+    "agents": ".claude"
+  },
   "prueba_de_vida": "python .glados/mcp_gitlab.py",
-  "requiere": ["gitlab.token", "bitbucket.email", "bitbucket.token", "bitbucket.workspace"]
+  "requiere": [
+    "gitlab.token",
+    "bitbucket.email",
+    "bitbucket.token",
+    "bitbucket.workspace"
+  ]
 }

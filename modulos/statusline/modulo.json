@@ -1,6 +1,6 @@
 {
   "nombre": "statusline",
-  "descripcion": "Indicador de limites de la suscripcion para la linea de estado de Claude Code: lee el campo rate_limits que ya llega por stdin, nunca el fichero de credenciales ni la API. Incluye una configuracion generica de ccstatusline (powerline) y, como reserva sin dependencias externas, un statusLine.command autocontenido.",
+  "descripcion": "Indicador de límites de la suscripción para la línea de estado de Claude Code: lee el campo rate_limits que ya llega por stdin, nunca el fichero de credenciales ni la API. Incluye una configuración genérica de ccstatusline (powerline) y, como reserva sin dependencias externas, un statusLine.command autocontenido.",
   "ficheros": [
     "limits_eye.sh",
     "statusline.sh",

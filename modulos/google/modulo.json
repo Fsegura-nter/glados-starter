@@ -6,10 +6,17 @@
     "gmail_api.py",
     "gmail_bandeja.py",
     "gmail_perfil.py",
-    "comandos/responde.md",
-    "comandos/correos.md"
+    "commands/responde.md",
+    "commands/correos.md"
   ],
   "destino": ".glados",
+  "destinos": {
+    "commands": ".claude"
+  },
   "prueba_de_vida": "python .glados/google_auth.py check",
-  "requiere": ["google.client_id", "google.client_secret", "google.refresh_token"]
+  "requiere": [
+    "google.client_id",
+    "google.client_secret",
+    "google.refresh_token"
+  ]
 }
