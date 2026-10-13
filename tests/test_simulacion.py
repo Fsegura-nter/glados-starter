@@ -38,7 +38,7 @@ def test_el_barrido_simulado_no_sale_a_la_red(raiz, tmp_path):
                         "--fuente", str(raiz / SIM / "fuente.json"),
                         "--salida", str(salida)],
                        capture_output=True, text=True, timeout=120,
-                       env={"PATH": "", "SYSTEMROOT": "C:\Windows"})
+                       env={"PATH": "", "SYSTEMROOT": r"C:\Windows"})
     assert r.returncode == 0, r.stderr
     metricas = json.loads(salida.read_text(encoding="utf-8"))
     assert metricas["correo"]["personas"] > 0
@@ -118,6 +118,17 @@ def test_una_pasada_simulada_entera_deja_el_doctor_sin_fallos(raiz, tmp_path):
                         str(raiz / SIM / "plan-esperado.json"), "--raiz", str(vault)],
                        capture_output=True, text=True, timeout=300, env=env)
     assert r.returncode == 0, r.stdout + r.stderr
+
+    # Fase 4b: los modulos del plan, a las rutas donde se descubren.
+    modulos = _plan(raiz)["modulos"]
+    r = subprocess.run([sys.executable, str(raiz / "herramientas/instalar_modulos.py"),
+                        "--vault", str(vault), "--modulos", *modulos],
+                       capture_output=True, text=True, timeout=300, env=env)
+    assert r.returncode == 0, r.stdout + r.stderr
+    # Los comandos del plan quedan donde Claude Code los busca, no en `.glados`.
+    assert (vault / ".claude/commands/responde.md").is_file()
+    assert (vault / ".claude/commands/decision.md").is_file()
+    assert (vault / ".claude/commands/consolidar.md").is_file()
 
     # Fase 5: el doctor. Avisos si, fallos no.
     d = importlib.util.spec_from_file_location("doc", raiz / "nucleo/.glados/doctor.py")

@@ -182,19 +182,30 @@ creado. Media bóveda es peor que ninguna.
 
 ### Instalar los módulos aprobados
 
-Cada módulo trae un `modulo.json` con `ficheros`, `destino` y, **si lo necesita**, un
-mapa `destinos`. Copia cada fichero a `<vault>/<destino>/<fichero>`, usando
-`destinos[<primer segmento de la ruta>]` cuando exista esa clave.
+**No copies ficheros a mano.** Hay un script, y existe porque esto ya salió mal una vez:
 
-**Esto no es un detalle de fontanería.** Los comandos, las skills y los agentes solo se
-descubren en rutas fijas bajo `.claude`: `commands/`, `skills/<nombre>/SKILL.md` y
-`agents/`. Un comando copiado a `.glados/` existe en el disco y **no existe para quien
-lo instaló**, y nada se queja. Por eso `destinos` manda sobre `destino` cuando está.
+```
+python "${CLAUDE_PLUGIN_ROOT}/herramientas/instalar_modulos.py" --vault "<vault>" --modulos google decisiones --dry-run --json
+python "${CLAUDE_PLUGIN_ROOT}/herramientas/instalar_modulos.py" --vault "<vault>" --modulos google decisiones
+```
 
-Después, la **prueba de vida de cada módulo** es su campo `prueba_de_vida`. La que pase
-marca `ok`; la que falle marca `fallo` y su motivo entra en `pendientes_manuales`. En una
-pasada simulada **ninguna prueba de vida real pasa**: los servicios se quedan
-`sin_probar`, y eso se dice.
+Valida los manifiestos **enteros** antes de copiar nada, honra el `destino` de cada
+módulo y su mapa `destinos`, **nunca pisa un fichero que ya exista** —relanzarlo completa
+lo que falte y deja intacto lo que se haya tocado a mano— y **se para** si un fichero
+descubrible fuera a aterrizar donde no se descubre.
+
+Eso último no es fontanería. Los comandos, las skills y los agentes solo se descubren en
+rutas fijas bajo `.claude`: `commands/`, `skills/<nombre>/SKILL.md` y `agents/`. Un
+comando copiado a `.glados/` existe en el disco y **no existe para quien lo instaló**, y
+nada se queja. El 2026-10-07, cuatro de los cinco módulos lo hacían así: once ficheros
+—`/responde`, `/correos`, `/decision`, `/reunion`, `/consolidar` y la skill `/mr` con sus
+dos agentes— se habrían instalado invisibles.
+
+El informe en `--json` trae, por módulo, lo copiado, lo que ya estaba, las credenciales
+que necesita y su **prueba de vida**. Córrela: la que pase marca `ok`; la que falle marca
+`fallo` y su motivo entra en `pendientes_manuales`. En una pasada simulada **ninguna
+prueba de vida real pasa**: los servicios se quedan `sin_probar`, y eso se dice en voz
+alta en vez de disimularlo.
 
 ---
 
