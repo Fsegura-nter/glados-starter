@@ -45,8 +45,42 @@ def test_el_respaldo_no_escribe_fuera_del_destino_configurado(raiz, tmp_path, re
                        input="{}", capture_output=True, text=True, encoding="utf-8",
                        cwd=tmp_path, timeout=30)
     assert r.returncode == 0, r.stderr
-    zips = list(destino.glob("vault-*.zip"))
+    zips = list(destino.glob("*.zip"))
     assert len(zips) == 1, f"esperaba exactamente un zip en {destino}, encontrado: {zips}"
+
+
+def test_el_respaldo_no_ve_ni_borra_el_de_otra_boveda(raiz, tmp_path, respaldo_configurado):
+    """Dos bóvedas de la misma máquina pueden compartir la carpeta que sincroniza la
+    nube. Con un patrón global —`vault-*.zip`, como estaba hasta el 2026-10-13— cada una
+    veía los respaldos de la otra: el diagnóstico de una bóveda recién creada anunciaba
+    un zip ajeno de hace una semana, y `podar()` podía borrar copias que no eran suyas.
+    Esto fija lo contrario: el patrón lleva el nombre del ecosistema y cada bóveda solo
+    se ve a sí misma.
+    """
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "rd", raiz / "nucleo/.glados/respaldo_drive.py")
+    rd = importlib.util.module_from_spec(spec)
+    sys.modules["rd"] = rd
+    spec.loader.exec_module(rd)
+
+    destino = respaldo_configurado
+    destino.mkdir(parents=True, exist_ok=True)
+    # El fixture no fija `nombre`, así que esta bóveda usa el nombre por defecto.
+    mio = f"{rd._slug_nombre()}-2026-10-13.zip"
+    # Nombre hostil a propósito: empieza igual que el propio. Con el patrón anterior
+    # (`<nombre>-*.zip`) este fichero casaba, y por eso la prueba fallaba de verdad.
+    ajeno = f"{rd._slug_nombre()}-de-otra-persona-2026-10-05.zip"
+    (destino / mio).write_bytes(b"PK\x05\x06" + b"\0" * 18)
+    (destino / ajeno).write_bytes(b"PK\x05\x06" + b"\0" * 18)
+
+    # `ultimo()` encuentra el propio, nunca el ajeno, aunque los dos estén ahí.
+    assert rd.ultimo(destino).name == mio
+
+    # `podar()` a cero copias se lleva el propio y deja el ajeno intacto.
+    assert rd.podar(destino, 0) == 1
+    assert not (destino / mio).exists()
+    assert (destino / ajeno).exists(), "podar() borró el respaldo de otra bóveda"
 
 def test_los_comandos_de_hook_no_llevan_comillas_ni_ampersand(raiz):
     texto = (raiz / "nucleo/.claude/settings.json.tmpl").read_text(encoding="utf-8")

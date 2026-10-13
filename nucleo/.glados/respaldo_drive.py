@@ -46,7 +46,6 @@ config.force_utf8()
 
 EXCLUIR_PARTES = {"__pycache__", ".trash"}
 EXCLUIR_SUFIJOS = {".pyc", ".tmp"}
-PATRON = "vault-*.zip"
 HORAS_MINIMAS = 20          # un cierre de sesion por la tarde no duplica el del mediodia
 COPIAS_POR_DEFECTO = 7
 
@@ -54,6 +53,39 @@ COPIAS_POR_DEFECTO = 7
 # `respaldo_path` no esta configurado a mano.
 CANDIDATOS = [Path("G:/Mi unidad"), Path("G:/My Drive"),
               Path.home() / "Mi unidad", Path.home() / "My Drive"]
+
+
+def _slug_nombre() -> str:
+    """Nombre del ecosistema reducido a un prefijo de fichero seguro."""
+    texto = config.nombre_ecosistema().strip().lower()
+    piezas = []
+    anterior_guion = False
+    for ch in texto:
+        if ch.isalnum():
+            piezas.append(ch)
+            anterior_guion = False
+        elif not anterior_guion:
+            piezas.append("-")
+            anterior_guion = True
+    return "".join(piezas).strip("-") or "vault"
+
+
+def patron() -> str:
+    """`<nombre>-*.zip`, NO un patron global.
+
+    El prefijo lleva el nombre del ecosistema a proposito. La carpeta de destino es una
+    carpeta de sincronizacion que puede compartir varias bovedas de la misma maquina, y
+    con un patron global cada una veria los respaldos de las otras: `ultimo()` informaria
+    de un respaldo ajeno —una boveda recien creada diciendo que se respaldo hace una
+    semana— y, peor, `podar()` borraria copias que no son suyas. Medido el 2026-10-13 en
+    tres pasadas simuladas: el diagnostico de una boveda nueva anunciaba un zip de otra.
+
+    La fecha va ANCLADA con `?`, no con `*`: un `<nombre>-*.zip` casa con cualquier
+    boveda cuyo nombre empiece igual, asi que `boveda` se llevaria los respaldos de
+    `boveda-qa`. Con la forma fija, la unica cosa que puede ir detras del nombre es una
+    fecha.
+    """
+    return f"{_slug_nombre()}-????-??-??.zip"
 
 
 def _raiz_a_excluir() -> set[str]:
@@ -106,13 +138,15 @@ def entradas() -> list[Path]:
 def ultimo(carpeta: Path) -> Path | None:
     if not carpeta.is_dir():
         return None
-    zips = sorted(carpeta.glob(PATRON), key=lambda p: p.stat().st_mtime, reverse=True)
+    zips = sorted(carpeta.glob(patron()), key=lambda p: p.stat().st_mtime, reverse=True)
     return zips[0] if zips else None
 
 
 def podar(carpeta: Path, copias: int) -> int:
-    """Deja solo las `copias` mas recientes. Solo toca ficheros con el patron del script."""
-    zips = sorted(carpeta.glob(PATRON), key=lambda p: p.stat().st_mtime, reverse=True)
+    """Deja solo las `copias` mas recientes de ESTA boveda. Solo toca ficheros que
+    coincidan con `patron()`, que lleva el nombre del ecosistema: nunca borra el
+    respaldo de otra boveda que comparta la carpeta de sincronizacion."""
+    zips = sorted(carpeta.glob(patron()), key=lambda p: p.stat().st_mtime, reverse=True)
     borrados = 0
     for viejo in zips[copias:]:
         try:
@@ -163,7 +197,7 @@ def main() -> int:
         return 0
 
     carpeta.mkdir(parents=True, exist_ok=True)
-    salida = carpeta / f"vault-{datetime.now():%Y-%m-%d}.zip"
+    salida = carpeta / f"{_slug_nombre()}-{datetime.now():%Y-%m-%d}.zip"
     parcial = salida.with_suffix(".zip.parcial")
     try:
         with zipfile.ZipFile(parcial, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as z:
