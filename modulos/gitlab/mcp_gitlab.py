@@ -48,8 +48,14 @@ def cualquier_token(servicio: str) -> tuple[str | None, str | None]:
 def main() -> None:
     origen, token = cualquier_token("gitlab")
     if not token:
-        fail("No hay ningún token de GitLab. Guárdalo con:\n"
-             '    python credentials.py set gitlab.token "glpat-…"')
+        # El token se pega en el FICHERO del almacén, nunca en un comando: en la línea
+        # de comandos queda en el historial de la terminal para siempre, y de ahí no lo
+        # saca nadie el día que haya que revocarlo.
+        fail("No hay ningún token de GitLab. Pégalo en el fichero del almacén, con la\n"
+             "clave `gitlab.token` para toda la instancia o\n"
+             "`gitlab.tokens.<grupo>/<repo>` para uno solo. Nunca en un comando: ahí\n"
+             "queda en el historial de la terminal.\n"
+             "    python .glados/credentials.py list   (dice dónde está y qué hay)")
     if origen != "gitlab.token":
         # Un token de proyecto tiene scope limitado: sirve para ese repo, no para
         # listar la instancia. Se usa, pero avisando de por qué puede fallar.
