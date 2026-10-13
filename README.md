@@ -180,6 +180,13 @@ vacía y te faltaría todo lo demás.
 
 ## Para quien quiera mirar por dentro
 
+**El porqué de cada decisión está en [`DESIGN.md`](DESIGN.md)**, incluida una sección con
+lo que salió mal y qué cambió por eso: los ficheros que se instalaban donde nadie los
+descubre, el guardián de datos privados que era invisible a sí mismo, el respaldo que
+pisaba el de otra bóveda, y un error escondido detrás de un aviso. Si algo del código
+parece raro, probablemente esté explicado ahí.
+
+
 ```
 bootstrap.ps1              la parte mecánica, idempotente, sin privilegios
 nucleo/.glados/            los 15 scripts que viven en la bóveda generada
