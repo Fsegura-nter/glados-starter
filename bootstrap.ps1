@@ -37,6 +37,16 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+# PowerShell escribe en la pagina de codigos del proceso (OEM/ANSI), no en UTF-8.
+# Los mensajes de este script son ASCII a proposito, pero INTERPOLAN rutas que vienen
+# de fuera: una ruta con un caracter fuera de ASCII volvia en bytes OEM y hacia saltar
+# un UnicodeDecodeError en el hilo lector de cualquier llamante que capturase en UTF-8.
+# En una terminal no se nota, y en la suite se escondia tras un warning. La skill
+# /ecosistema SI captura esta salida: alli seria un None silencioso justo en la fase
+# que guia al usuario. Espejo de config.force_utf8() en el lado Python.
+[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+$OutputEncoding = [Console]::OutputEncoding
+
 function Ok($msg) { Write-Host "OK     $msg" }
 function Aviso($msg) { Write-Host "AVISO  $msg" -ForegroundColor Yellow }
 function Fallo($msg) { Write-Host "FALLO  $msg" -ForegroundColor Red }

@@ -30,6 +30,9 @@ def test_rechaza_una_ruta_con_tilde(raiz, tmp_path):
     destino = tmp_path / "boveda-con-tilde-ñ"
     r = ps(raiz, tmp_path, "-Vault", str(destino), "-Nombre", "boveda", "-DryRun")
     assert r.returncode == 1
+    # El mensaje tiene que LEERSE: el script interpola la ruta rechazada, y sin
+    # forzar UTF-8 en su salida esa interpolacion rompia la captura del llamante.
+    assert "letras sin tilde" in (r.stdout + r.stderr).lower()
     assert not destino.exists()
 
 def test_dryrun_no_crea_nada(raiz, tmp_path):
