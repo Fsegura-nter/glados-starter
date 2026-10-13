@@ -1,0 +1,9 @@
+{
+  "_que_es": "Copia este fichero a .limpieza-patrones.json y pon tus propios valores. El real esta en .gitignore y no se publica NUNCA: estos patrones nombran justo lo que no debe salir del repositorio, asi que publicarlos seria exactamente la fuga que la herramienta existe para evitar.",
+  "_como_se_usa": "python herramientas/limpieza.py   ->   0 limpio, 1 hay hallazgos, 2 falta este fichero",
+  "_por_que_falla_si_falta": "Un barrido sin patrones contestaria '0 hallazgos' y certificaria que no hay fugas sin haber mirado. Eso es peor que no tener barrido, asi que el script sale con 2 en vez de pasar en silencio.",
+  "dominio_interno": "\\bmiempresa\\.example\\b",
+  "correo_interno": "[\\w.+-]+@(?:[\\w-]+\\.)*miempresa\\.[a-z]{2,}",
+  "cliente": "NombreDeCliente|OtroCliente",
+  "ruta_personal": "[A-Z]:\\\\Users\\\\[A-Za-z]{2}\\d{6,}"
+}

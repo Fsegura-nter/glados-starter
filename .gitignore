@@ -5,3 +5,5 @@ __pycache__/
 .superpowers/
 nucleo/.glados/last_session.md
 nucleo/.glados/settings.json
+# Los patrones del barrido nombran dominios, clientes y rutas reales: nunca se publican.
+.limpieza-patrones.json

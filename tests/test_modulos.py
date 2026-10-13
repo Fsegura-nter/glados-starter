@@ -28,9 +28,29 @@ def test_ningun_modulo_envia_correo(raiz):
         assert "drafts/send" not in texto, f
 
 def test_el_modulo_gitlab_no_trae_el_host_de_nadie(raiz):
+    """El host sale siempre de `.glados/settings.json` (`gitlab_host`), nunca de un
+    literal: una instancia hospedada por una empresa escrita en un repositorio público
+    es el tipo de dato que no debe viajar.
+
+    Esta prueba busca la FORMA de un host de GitLab, no el nombre concreto de ninguna
+    empresa. Antes nombraba el dominio interno real, que es precisamente lo que no puede
+    estar aquí: un fichero que afirma la ausencia de algo nombrándolo lo publica.
+    """
+    # Un host concreto es o una URL (`https://gitlab.x.y`) o un nombre con un TLD de
+    # verdad detrás. La lista de TLD evita el falso positivo que encontré escribiendo
+    # esto: `gitlab.tokens.group` es una CLAVE de credencial, no un dominio.
+    host = re.compile(
+        r"(?:https?://|//)gitlab\.[a-z0-9.-]+"
+        r"|\bgitlab\.[a-z0-9-]+\.(?:es|com|net|org|io|dev|eu|local|cloud)\b", re.I)
+    PERMITIDOS = ("ejemplo.invalido", "miempresa.example", "example.com", "gitlab.com",
+                  "gitlab.host")        # marcador de posición en la ayuda de /mr
     for f in (raiz / "modulos/gitlab").rglob("*"):
-        if f.is_file():
-            assert "nfqsolutions" not in f.read_text(encoding="utf-8", errors="ignore")
+        if not f.is_file() or f.suffix == ".pyc":
+            continue
+        for n, linea in enumerate(f.read_text(encoding="utf-8", errors="ignore").splitlines(), 1):
+            m = host.search(linea)
+            if m and not any(p in m.group(0) for p in PERMITIDOS):
+                pytest.fail(f"{f.relative_to(raiz)}:{n} trae un host concreto: {m.group(0)}")
 
 def test_toda_skill_declara_los_agentes_que_invoca(raiz):
     """Guarda genérica, no el par /mr concreto: cualquier SKILL.md que lance un

@@ -1,9 +1,15 @@
 # Lista blanca para herramientas/limpieza.py
-# Cada línea es una ruta relativa del repo (con barras normales /) que puede contener patrones buscados.
-# Estas rutas se permiten PORQUE son la herramienta de guarda o sus propias pruebas.
-# Añadir una ruta aquí es un acto revisable: justifica por qué el fichero puede tener datos de NTER.
-# NUNCA usar esta lista para silenciar una fuga real.
-
-herramientas/limpieza.py
-tests/test_limpieza.py
-tests/test_modulos.py
+# Cada linea es una ruta relativa del repo (con barras normales /) que puede contener
+# patrones buscados. Anadir una ruta aqui es un acto revisable: justifica por que.
+#
+# ESTA LISTA ESTA VACIA A PROPOSITO, y volver a llenarla merece una buena razon.
+# Hasta el 2026-10-13 excluia `herramientas/limpieza.py` y `tests/test_limpieza.py`
+# porque los dos llevaban los patrones reales escritos dentro —dominio interno, cuatro
+# nombres de cliente, una matricula de empleado—. El guardian era invisible a si mismo:
+# publicar este repositorio habria publicado la lista de clientes de la empresa dentro
+# de la herramienta que existe para impedirlo.
+#
+# El arreglo no fue ampliar la lista, fue quitar el motivo: los patrones viven ahora en
+# `.limpieza-patrones.json`, que esta en .gitignore, y las pruebas usan patrones
+# ficticios. Un fichero que necesita estar aqui es un fichero que nombra algo real, y
+# casi siempre se puede reescribir para que no lo nombre.
